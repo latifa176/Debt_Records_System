@@ -53,17 +53,18 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginLeft="125dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="10dp"
             android:text="فلانة الفلاني"
             android:textColor="@color/bluish_green"
             android:textStyle="bold"
-            android:textSize="24dp"></TextView>
+            android:textSize="24sp"></TextView>
 
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="250dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginLeft="230dp"
+            android:layout_marginTop="50dp"
             android:textAlignment="viewEnd"
             android:gravity="end"
             android:text="القسم:"
@@ -72,8 +73,8 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="205dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginLeft="185dp"
+            android:layout_marginTop="50dp"
             android:textAlignment="viewEnd"
             android:textStyle="bold"
             android:gravity="end"
