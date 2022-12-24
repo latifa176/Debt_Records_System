@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
+
+    <RelativeLayout
+        android:id="@+id/recordItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/record_BG_red"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="المجموع"
+            android:textColor="@color/bluish_green"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:text="-3"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="24sp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/dateAndTime"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_gravity="start"
+            android:text="5/11/2022  9:30 AM"
+            android:textColor="@color/bluish_green"
+            android:textSize="12sp"></TextView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginLeft="125dp"
+            android:text="فلانة الفلاني"
+            android:textColor="@color/bluish_green"
+            android:textStyle="bold"
+            android:textSize="24dp"></TextView>
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="40dp"
+            android:textAlignment="viewEnd"
+            android:gravity="end"
+            android:text="القسم:"
+            android:textColor="@color/bluish_green"
+            android:textSize="18sp"></TextView>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="40dp"
+            android:textAlignment="viewEnd"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:text="ثالث 1"
+            android:textColor="@color/bluish_green"
+            android:textSize="18sp"></TextView>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
