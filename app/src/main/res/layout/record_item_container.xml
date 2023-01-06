@@ -68,17 +68,19 @@
             android:text="القسم:"
             android:textColor="@color/bluish_green"
             android:textSize="18sp"></TextView>
+
         <TextView
+            android:id="@+id/section"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="185dp"
             android:layout_marginTop="50dp"
-            android:textAlignment="viewEnd"
-            android:textStyle="bold"
             android:gravity="end"
             android:text="ثالث 1"
+            android:textAlignment="viewEnd"
             android:textColor="@color/bluish_green"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
