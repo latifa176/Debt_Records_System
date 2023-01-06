@@ -19,7 +19,6 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:text="المجموع"
             android:textColor="@color/bluish_green"
             android:textSize="14sp"
@@ -30,7 +29,6 @@
             android:id="@+id/totalAmount"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:layout_marginTop="20dp"
             android:text="-3"
             android:textAlignment="center"
