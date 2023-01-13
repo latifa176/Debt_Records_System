@@ -1,6 +1,9 @@
 package com.example.debtrecords;
 
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class RecordItem {
     private String nameOfDebtor;
@@ -24,6 +27,10 @@ public class RecordItem {
 
     public LocalDateTime getDateCreated() {
         return dateCreated;
+    }
+    public String getFormattedDateCreated(){
+        DateTimeFormatter dtf=DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+        return  dtf.format(dateCreated);
     }
 
     public float getTotalAmount() {

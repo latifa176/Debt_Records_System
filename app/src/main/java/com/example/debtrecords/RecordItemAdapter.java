@@ -34,7 +34,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         holder.name.setText(recordItems.get(position).getNameOfDebtor());
         holder.section.setText(recordItems.get(position).getSectionOfDebtor()+" "+recordItems.get(position).getSectionNumOfDebtor());
         holder.totalAmount.setText(Float.toString(recordItems.get(position).getTotalAmount()));
-        holder.dateAndTime.setText(recordItems.get(position).getDateCreated().toString());
+        holder.dateAndTime.setText(recordItems.get(position).getFormattedDateCreated());
     }
 
     @Override
