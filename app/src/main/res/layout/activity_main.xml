@@ -70,9 +70,9 @@
         android:layout_height="570dp"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingStart="0dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
+        android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_marginTop="135dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
