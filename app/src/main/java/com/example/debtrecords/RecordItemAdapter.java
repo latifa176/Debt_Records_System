@@ -42,7 +42,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
     public int getItemCount() {
         return recordItems.size();
     }
-    
+
     class RecordItemViewHolder extends RecyclerView.ViewHolder{
         private TextView name, section, totalAmount, dateAndTime;
         private RecyclerView changeHistory;
