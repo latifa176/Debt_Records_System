@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RecordItem {
     private String nameOfDebtor;
@@ -12,6 +14,7 @@ public class RecordItem {
     private DebtorSection sectionOfDebtor;
     private DebtorSectionNumber sectionNumOfDebtor;
     private AmountType amountType;
+    private List<AmountChange> changeHistory;
 
     public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType) {
         this.nameOfDebtor = nameOfDebtor;
@@ -20,6 +23,8 @@ public class RecordItem {
         this.sectionOfDebtor = sectionOfDebtor;
         this.sectionNumOfDebtor = sectionNumOfDebtor;
         this.amountType = amountType;
+        changeHistory = new LinkedList<>();
+        changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
     }
     public String getNameOfDebtor() {
         return nameOfDebtor;
@@ -48,4 +53,6 @@ public class RecordItem {
     public AmountType getAmountType() {
         return amountType;
     }
+
+    public List<AmountChange> getChangeHistory() { return  changeHistory; }
 }

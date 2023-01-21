@@ -35,6 +35,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         holder.section.setText(recordItems.get(position).getSectionOfDebtor()+" "+recordItems.get(position).getSectionNumOfDebtor());
         holder.totalAmount.setText(Float.toString(recordItems.get(position).getTotalAmount()));
         holder.dateAndTime.setText(recordItems.get(position).getFormattedDateCreated());
+        holder.changeHistory.setAdapter(new RecordItemChangeHistoryAdapter(recordItems.get(position).getChangeHistory()));
     }
 
     @Override
@@ -42,8 +43,11 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         return recordItems.size();
     }
 
+    public RecordItem getItemAt(int position){return recordItems.get(position);}
+
     class RecordItemViewHolder extends RecyclerView.ViewHolder{
         private TextView name, section, totalAmount, dateAndTime;
+        private RecyclerView changeHistory;
 
         public RecordItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +55,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
             section=itemView.findViewById(R.id.section);
             totalAmount=itemView.findViewById(R.id.totalAmount);
             dateAndTime=itemView.findViewById(R.id.dateAndTime);
+            changeHistory=itemView.findViewById((R.id.changeHistoryRecyclerView));
         }
     }
 }
