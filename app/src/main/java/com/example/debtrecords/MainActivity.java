@@ -21,13 +21,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private View currentlyExpandedRecord;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         List<RecordItem> recordItems=new ArrayList<>();
 
-        for(int i=0; i<10; i++){
+        for(int i=0; i<10; i++)
+        {
             recordItems.add(
                     new RecordItem(
                             "Latifa",
@@ -49,5 +51,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems));
+    }
+
+    public void onRecordItemClick(View view)
+    {
+        if(view.findViewById(R.id.changeHistoryRecyclerView).getVisibility()==View.INVISIBLE)
+            expandRecord(view);
+        else shrinkRecord(view);
+    }
+
+    void expandRecord(View view)
+    {
+        if(currentlyExpandedRecord!=null) //if a different record was currently expanded, shrink it
+            shrinkRecord(currentlyExpandedRecord);
+        view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
+        currentlyExpandedRecord = view;
+    }
+    void shrinkRecord(View view)
+    {
+        view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
+        currentlyExpandedRecord=null;
     }
 }

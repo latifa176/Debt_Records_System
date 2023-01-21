@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class AmountChange {
+public class AmountChange
+{
     private LocalDateTime dateChanged;
     private float changeAmount;
     private AmountType changeType;
 
-    public AmountChange(LocalDateTime dateChanged, float changeAmount, AmountType changeType) {
+    public AmountChange(LocalDateTime dateChanged, float changeAmount, AmountType changeType)
+    {
         this.dateChanged = dateChanged;
         this.changeAmount = changeAmount;
         this.changeType = changeType;
@@ -18,7 +20,8 @@ public class AmountChange {
     public LocalDateTime getDateChanged() {
         return dateChanged;
     }
-    public String getFormattedDateChanged(){
+    public String getFormattedDateChanged()
+    {
         DateTimeFormatter dtf=DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
         return  dtf.format(dateChanged);
     }
@@ -33,9 +36,7 @@ public class AmountChange {
         else return "-"+changeAmount;
     }
 
-    public AmountType getChangeType() {
-        return changeType;
-    }
+    public AmountType getChangeType() { return changeType; }
     public String getAmountChangeTypeString()
     {
         if(changeType==AmountType.Credit)

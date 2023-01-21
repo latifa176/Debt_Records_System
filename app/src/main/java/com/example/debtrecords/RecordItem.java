@@ -7,7 +7,8 @@ import java.time.format.FormatStyle;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RecordItem {
+public class RecordItem
+{
     private String nameOfDebtor;
     private LocalDateTime dateCreated;
     private float totalAmount;
@@ -16,7 +17,8 @@ public class RecordItem {
     private AmountType amountType;
     private List<AmountChange> changeHistory;
 
-    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType) {
+    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType)
+    {
         this.nameOfDebtor = nameOfDebtor;
         this.dateCreated = dateCreated;
         this.totalAmount = totalAmount;
@@ -33,7 +35,8 @@ public class RecordItem {
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
-    public String getFormattedDateCreated(){
+    public String getFormattedDateCreated()
+    {
         DateTimeFormatter dtf=DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
         return  dtf.format(dateCreated);
     }
