@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private View currentlyExpandedRecord;
+    private int lastExpandedPosition = -1;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<RecordItem> expandableRecordItems;
@@ -35,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableRecordItems.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
+
+                //Collapse all groups except selected group:
+                if(lastExpandedPosition != -1 && groupPosition != lastExpandedPosition)
+                {
+                    expandableListView.collapseGroup(lastExpandedPosition);
+                }
+                lastExpandedPosition = groupPosition;
             }
         });
 
