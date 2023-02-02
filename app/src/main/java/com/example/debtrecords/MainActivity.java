@@ -12,64 +12,69 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.debtrecords.databinding.ActivityMainBinding;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
 
     private View currentlyExpandedRecord;
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<AmountChange>> expandableListDetail;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        expandableListView = (ExpandableListView) findViewById(R.id.recordRecyclerView);
+        expandableListDetail = ExpandableListDataPump.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
-        RecyclerView recordRecyclerView=findViewById(R.id.recordRecyclerView);
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Expanded.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        List<RecordItem> recordItems=new ArrayList<>();
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
-        for(int i=0; i<10; i++)
-        {
-            recordItems.add(
-                    new RecordItem(
-                            "Latifa",
-                            LocalDateTime.now(),
-                            10,
-                            DebtorSection.First,
-                            DebtorSectionNumber.Two,
-                            AmountType.Debt
-                    )
-            );
-        }
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Collapsed.",
+                        Toast.LENGTH_SHORT).show();
 
-        recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems));
-    }
+            }
+        });
 
-    public void onRecordItemClick(View view)
-    {
-        if(view.findViewById(R.id.changeHistoryRecyclerView).getVisibility()==View.INVISIBLE)
-            expandRecord(view);
-        else shrinkRecord(view);
-    }
-
-    void expandRecord(View view)
-    {
-        if(currentlyExpandedRecord!=null) //if a different record was currently expanded, shrink it
-            shrinkRecord(currentlyExpandedRecord);
-        view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
-        currentlyExpandedRecord = view;
-    }
-    void shrinkRecord(View view)
-    {
-        view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
-        currentlyExpandedRecord=null;
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        expandableListTitle.get(groupPosition)
+                                + " -> "
+                                + expandableListDetail.get(
+                                expandableListTitle.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        });
     }
 }

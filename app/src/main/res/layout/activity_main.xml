@@ -64,7 +64,7 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/btn_filter_ldpi" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ExpandableListView
         android:id="@+id/recordRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="570dp"

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="380dp"
+<RelativeLayout android:layout_width="380dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/expandedListItem">
 
         <TextView
             android:id="@+id/changeType"
@@ -42,5 +39,3 @@
             android:textSize="12sp"></TextView>
 
     </RelativeLayout>
-
-</androidx.cardview.widget.CardView>

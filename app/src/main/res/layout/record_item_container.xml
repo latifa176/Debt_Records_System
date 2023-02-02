@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:clickable="true"
-    android:onClick="onRecordItemClick"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
@@ -82,16 +80,6 @@
             android:textColor="@color/bluish_green"
             android:textSize="18sp"
             android:textStyle="bold"></TextView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/changeHistoryRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingBottom="5dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </RelativeLayout>
 

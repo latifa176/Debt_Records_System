@@ -59,7 +59,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
             section=itemView.findViewById(R.id.section);
             totalAmount=itemView.findViewById(R.id.totalAmount);
             dateAndTime=itemView.findViewById(R.id.dateAndTime);
-            changeHistory=itemView.findViewById((R.id.changeHistoryRecyclerView));
+            //changeHistory=itemView.findViewById((R.id.changeHistoryRecyclerView));
         }
     }
 }
