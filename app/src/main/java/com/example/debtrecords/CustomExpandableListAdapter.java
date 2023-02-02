@@ -3,33 +3,29 @@ package com.example.debtrecords;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> expandableListTitle;
-    private HashMap<String, List<AmountChange>> expandableListDetail;
+    private List<RecordItem> expandableRecordItem;
+    private HashMap<RecordItem, List<AmountChange>> expandableRecordItemHistory;
 
-    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<AmountChange>> expandableListDetail) {
+    public CustomExpandableListAdapter(Context context, List<RecordItem> expandableRecordItem,
+                                       HashMap<RecordItem, List<AmountChange>> expandableRecordItemHistory) {
         this.context = context;
-        this.expandableListTitle = expandableListTitle;
-        this.expandableListDetail = expandableListDetail;
+        this.expandableRecordItem = expandableRecordItem;
+        this.expandableRecordItemHistory = expandableRecordItemHistory;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableRecordItemHistory.get(this.expandableRecordItem.get(listPosition))
                 .get(expandedListPosition);
     }
 
@@ -60,18 +56,18 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableRecordItemHistory.get(this.expandableRecordItem.get(listPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int listPosition) {
-        return this.expandableListTitle.get(listPosition);
+        return this.expandableRecordItem.get(listPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.expandableListTitle.size();
+        return this.expandableRecordItem.size();
     }
 
     @Override
@@ -83,7 +79,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent)
     {
-        String listTitle = (String) getGroup(listPosition);
+        RecordItem recordItem = (RecordItem) getGroup(listPosition);
         if (convertView == null)
         {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.

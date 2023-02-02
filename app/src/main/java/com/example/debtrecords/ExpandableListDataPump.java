@@ -6,14 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListDataPump {
-    public static HashMap<String, List<AmountChange>> getData() {
-        HashMap<String, List<AmountChange>> expandableListDetail = new HashMap<String, List<AmountChange>>();
+    public static HashMap<RecordItem, List<AmountChange>> getData() {
+        HashMap<RecordItem, List<AmountChange>> expandableListDetail = new HashMap<RecordItem, List<AmountChange>>();
 
         List<AmountChange> history = new ArrayList<AmountChange>();
         history.add(new AmountChange(LocalDateTime.now(), 10, AmountType.Debt));
 
 
-        expandableListDetail.put("History", history);
+        expandableListDetail.put(new RecordItem
+                ("Latifa", LocalDateTime.now(), 10, DebtorSection.First, DebtorSectionNumber.Two, AmountType.Debt
+                ), history);
         return expandableListDetail;
     }
 }
