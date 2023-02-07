@@ -16,6 +16,8 @@ import com.example.debtrecords.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity
             shrinkRecord(currentlyExpandedRecord);
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
         currentlyExpandedRecord = view;
+
+        Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.expand_history);
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);
     }
     void shrinkRecord(View view)
     {
