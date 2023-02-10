@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity
     }
     void shrinkRecord(View view)
     {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.shrink_history);
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);
+
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
         currentlyExpandedRecord=null;
     }
