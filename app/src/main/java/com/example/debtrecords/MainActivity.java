@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity
             expandRecord(view);
         else shrinkRecord(view);
     }
+    /*public void onMenuClick(View view)
+    {
+        view.findViewById(R.id.)
+    }*/
 
     void expandRecord(View view)
     {
