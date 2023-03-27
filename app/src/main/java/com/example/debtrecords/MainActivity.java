@@ -2,10 +2,13 @@ package com.example.debtrecords;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity
 {
 
     private View currentlyExpandedRecord;
+    private DrawerLayout menuDrawerLayout;
+    private ActionBarDrawerToggle menuToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +39,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initializeRecyclerView();
+        initializeDrawerLayout();
+    }
+    void initializeRecyclerView()
+    {
         RecyclerView recordRecyclerView=findViewById(R.id.recordRecyclerView);
 
         List<RecordItem> recordItems=new ArrayList<>();
@@ -53,6 +63,25 @@ public class MainActivity extends AppCompatActivity
         }
 
         recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems));
+    }
+    void initializeDrawerLayout()
+    {
+        menuDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        menuToggle = new ActionBarDrawerToggle(this, menuDrawerLayout, R.string.open, R.string.close);
+
+        menuDrawerLayout.addDrawerListener(menuToggle);
+        menuToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        if(menuToggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onRecordItemClick(View view)

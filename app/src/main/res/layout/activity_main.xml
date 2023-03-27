@@ -4,24 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/drawerLayout">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/menuButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="start|top"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="5dp"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:scaleType="fitCenter"
-        android:onClick="onMenuClick"
-        app:srcCompat="@drawable/btn_menu_larger_text" />
 
     <android.widget.SearchView
         android:id="@+id/searchView"
