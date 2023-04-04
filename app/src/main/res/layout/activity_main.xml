@@ -22,17 +22,18 @@
         android:orientation="horizontal"
         android:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/newRecordButton"
-        android:layout_width="130dp"
-        android:layout_height="90dp"
-        android:layout_gravity="start"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="60dp"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/btn_new_ldpi" />
+        <ImageView
+            android:id="@+id/newRecordButton"
+            android:layout_width="130dp"
+            android:layout_height="90dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:onClick="onNewRecordClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/btn_new_ldpi" />
 
     <ImageView
         android:id="@+id/sortButton"

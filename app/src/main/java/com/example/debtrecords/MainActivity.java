@@ -1,5 +1,6 @@
 package com.example.debtrecords;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -90,10 +91,11 @@ public class MainActivity extends AppCompatActivity
             expandRecord(view);
         else shrinkRecord(view);
     }
-    /*public void onMenuClick(View view)
+    public void onNewRecordClick(View view)
     {
-        view.findViewById(R.id.)
-    }*/
+        Intent intent = new Intent(MainActivity.this, NewRecordActivity.class);
+        startActivity(intent);
+    }
 
     void expandRecord(View view)
     {
