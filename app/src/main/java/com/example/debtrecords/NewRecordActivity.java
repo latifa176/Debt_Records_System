@@ -16,13 +16,31 @@ public class NewRecordActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_record);
 
-        Spinner sectionSpinner = (Spinner) findViewById(R.id.sectionSpinner);
+        initializeSectionSpinner();
+        initializeSectionNumSpinner();
+    }
+    void initializeSectionSpinner()
+    {
+        Spinner sectionSpinner = findViewById(R.id.sectionSpinner);
         ArrayAdapter<DebtorSection> sectionArrayAdapter = new ArrayAdapter<DebtorSection>
                 (this,
                         android.R.layout.simple_spinner_item,
                         DebtorSection.values()
                 );
+
         sectionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sectionSpinner.setAdapter(sectionArrayAdapter);
+    }
+    void initializeSectionNumSpinner()
+    {
+        Spinner sectionNumSpinner = findViewById(R.id.sectionNumSpinner);
+        ArrayAdapter<DebtorSectionNumber> sectionNumArrayAdapter = new ArrayAdapter<DebtorSectionNumber>
+                (this,
+                        android.R.layout.simple_spinner_item,
+                        DebtorSectionNumber.values()
+                );
+
+        sectionNumArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sectionNumSpinner.setAdapter(sectionNumArrayAdapter);
     }
 }
