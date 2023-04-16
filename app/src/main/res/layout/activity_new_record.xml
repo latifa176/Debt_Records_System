@@ -83,6 +83,7 @@
         app:layout_constraintTop_toTopOf="@id/sectionTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
+        android:textAlignment="textEnd"
         android:spinnerMode="dropdown"/>
 
     <TextView
@@ -109,6 +110,7 @@
         app:layout_constraintTop_toTopOf="@id/sectionNumTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.55"
+        android:textAlignment="textEnd"
         android:spinnerMode="dropdown"/>
 
     <TextView
@@ -135,6 +137,7 @@
         app:layout_constraintTop_toTopOf="@id/recordTypeTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.3"
+        android:textAlignment="textEnd"
         android:spinnerMode="dropdown"/>
 
     <TextView
