@@ -18,6 +18,7 @@ public class NewRecordActivity extends AppCompatActivity
 
         initializeSectionSpinner();
         initializeSectionNumSpinner();
+        initializeRecordTypeSpinner();
     }
     void initializeSectionSpinner()
     {
@@ -42,5 +43,17 @@ public class NewRecordActivity extends AppCompatActivity
 
         sectionNumArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sectionNumSpinner.setAdapter(sectionNumArrayAdapter);
+    }
+    void initializeRecordTypeSpinner()
+    {
+        Spinner recordTypeSpinner = findViewById(R.id.recordTypeSpinner);
+        ArrayAdapter<AmountType> recordTypeArrayAdapter = new ArrayAdapter<AmountType>
+                (this,
+                        android.R.layout.simple_spinner_item,
+                        AmountType.values()
+                );
+
+        recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        recordTypeSpinner.setAdapter(recordTypeArrayAdapter);
     }
 }
