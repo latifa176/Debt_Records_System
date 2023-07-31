@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import java.nio.charset.StandardCharsets;
 public class NewRecordActivity extends AppCompatActivity
 {
     private TextView testDataText;
+    private EditText nameEditText, amountEditText;
+    private Spinner sectionSpinner, sectionNumSpinner, recordTypeSpinner;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -31,12 +34,14 @@ public class NewRecordActivity extends AppCompatActivity
         initializeSectionNumSpinner();
         initializeRecordTypeSpinner();
 
+        findViews();
+
         testDataText=findViewById(R.id.testData);
         testDisplaySavedData();
     }
     void initializeSectionSpinner()
     {
-        Spinner sectionSpinner = findViewById(R.id.sectionSpinner);
+        sectionSpinner = findViewById(R.id.sectionSpinner);
         ArrayAdapter<DebtorSection> sectionArrayAdapter = new ArrayAdapter<DebtorSection>
                 (this,
                         android.R.layout.simple_spinner_item,
@@ -48,7 +53,7 @@ public class NewRecordActivity extends AppCompatActivity
     }
     void initializeSectionNumSpinner()
     {
-        Spinner sectionNumSpinner = findViewById(R.id.sectionNumSpinner);
+        sectionNumSpinner = findViewById(R.id.sectionNumSpinner);
         ArrayAdapter<DebtorSectionNumber> sectionNumArrayAdapter = new ArrayAdapter<DebtorSectionNumber>
                 (this,
                         android.R.layout.simple_spinner_item,
@@ -70,9 +75,48 @@ public class NewRecordActivity extends AppCompatActivity
         recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         recordTypeSpinner.setAdapter(recordTypeArrayAdapter);
     }
+    void findViews()
+    {
+        nameEditText = findViewById(R.id.nameEditText);
+        amountEditText = findViewById(R.id.amountEditText);
+        recordTypeSpinner = findViewById(R.id.recordTypeSpinner);
+    }
+    boolean missingData()
+    {
+        if(nameEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(NewRecordActivity.this, "Please enter the name", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if(sectionSpinner.getSelectedItem().toString().isEmpty())
+        {
+            Toast.makeText(NewRecordActivity.this, "Please select section", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if(selectedNumberedSection() && sectionNumSpinner.getSelectedItem().toString()=="-")
+        {
+            Toast.makeText(NewRecordActivity.this, "Please select section number", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if(amountEditText.getText().toString().isEmpty())
+        {
+            Toast.makeText(NewRecordActivity.this, "Please enter amount", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        return false;
+    }
+    boolean selectedNumberedSection()
+    {
+        return sectionSpinner.getSelectedItemPosition() != 0 && sectionSpinner.getSelectedItemPosition() != 4; //Not "بدون قسم" NOR "أخرى"
+    }
 
     public void onSaveClick(View view) throws IOException
     {
+        if(missingData())
+        {
+            return;
+        }
         File directory = getApplicationContext().getFilesDir();
         File file = new File(directory, "test.txt");
         String textToBeSaved = "testing testing";
