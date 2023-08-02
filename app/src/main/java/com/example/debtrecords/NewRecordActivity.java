@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.apache.commons.text.RandomStringGenerator;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -110,6 +112,12 @@ public class NewRecordActivity extends AppCompatActivity
     {
         return sectionSpinner.getSelectedItemPosition() != 0 && sectionSpinner.getSelectedItemPosition() != 4; //Not "بدون قسم" NOR "أخرى"
     }
+    String generateID()
+    { //Generate random letters for ID
+        RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                .withinRange('a', 'z').build();
+        return generator.generate(8);
+    }
 
     public void onSaveClick(View view) throws IOException
     {
@@ -119,7 +127,7 @@ public class NewRecordActivity extends AppCompatActivity
         }
         File directory = getApplicationContext().getFilesDir();
         File file = new File(directory, "test.txt");
-        String textToBeSaved = "testing testing";
+        String textToBeSaved = "testing testing " + generateID();
 
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(textToBeSaved.getBytes());
