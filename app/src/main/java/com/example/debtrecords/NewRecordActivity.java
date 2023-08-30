@@ -108,26 +108,54 @@ public class NewRecordActivity extends AppCompatActivity
 
         return false;
     }
+    boolean usedName(String newFileName)
+    {
+        //Look inside all file names and see if this file name was used before
+        File directory = getApplicationContext().getFilesDir();
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
+        String[] allFileNames = debtsFolder.list();
+
+        if(allFileNames==null) return false;
+
+        for (int i = 0; i<allFileNames.length; i++)
+        {
+            if(allFileNames[i].equals(newFileName))
+                return true;
+        }
+
+        return false;
+    }
     boolean selectedNumberedSection()
     {
         return sectionSpinner.getSelectedItemPosition() != 0 && sectionSpinner.getSelectedItemPosition() != 4; //Not "بدون قسم" NOR "أخرى"
     }
-    String generateID()
+    /*String generateID()
     { //Generate random letters for ID
         RandomStringGenerator generator = new RandomStringGenerator.Builder()
                 .withinRange('a', 'z').build();
         return generator.generate(8);
+    }*/
+    String generateDebtDataString()
+    {
+        return nameEditText.getText().toString()+","+
+                sectionSpinner.getSelectedItemPosition()+","+
+                sectionNumSpinner.getSelectedItemPosition()+","+
+                recordTypeSpinner.getSelectedItemPosition()+","+
+                amountEditText.getText().toString()+",";
     }
 
     public void onSaveClick(View view) throws IOException
     {
-        if(missingData())
+        String fileName = nameEditText.getText().toString();
+        if(missingData() || usedName(fileName))
         {
             return;
         }
         File directory = getApplicationContext().getFilesDir();
-        File file = new File(directory, "test.txt");
-        String textToBeSaved = "testing testing " + generateID();
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
+        debtsFolder.mkdirs();
+        File file = new File(debtsFolder, fileName+".txt");
+        String textToBeSaved = generateDebtDataString();
 
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(textToBeSaved.getBytes());
@@ -140,12 +168,13 @@ public class NewRecordActivity extends AppCompatActivity
     void testDisplaySavedData()
     {
         File directory = getApplicationContext().getFilesDir();
-        File file = new File(directory, "test.txt");
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
         String content="";
 
         try
         {
-            FileInputStream fis = new FileInputStream(file);
+            File[] files = debtsFolder.listFiles();
+            FileInputStream fis = new FileInputStream(files[0]);
             int character = fis.read();
 
             while (character != -1)
