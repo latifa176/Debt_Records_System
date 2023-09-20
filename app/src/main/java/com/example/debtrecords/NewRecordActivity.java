@@ -1,5 +1,7 @@
 package com.example.debtrecords;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -24,8 +26,12 @@ import java.nio.charset.StandardCharsets;
 public class NewRecordActivity extends AppCompatActivity
 {
     private TextView testDataText;
+
+    private TextView nameTextView, sectionTextView, sectionNumTextView, recordTypeTextView, amountTextView;
     private EditText nameEditText, amountEditText;
     private Spinner sectionSpinner, sectionNumSpinner, recordTypeSpinner;
+    private ColorStateList originalBackgroundTint, redBackgroundTint;
+    private ColorStateList originalTextColor, redTextColor;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -37,6 +43,7 @@ public class NewRecordActivity extends AppCompatActivity
         initializeRecordTypeSpinner();
 
         findViews();
+        initializeColorVariables();
 
         testDataText=findViewById(R.id.testData);
         testDisplaySavedData();
@@ -79,9 +86,22 @@ public class NewRecordActivity extends AppCompatActivity
     }
     void findViews()
     {
+        nameTextView = findViewById(R.id.nameTextView);
+        sectionTextView = findViewById(R.id.sectionTextView);
+        sectionNumTextView = findViewById(R.id.sectionNumTextView);
+        recordTypeTextView = findViewById(R.id.recordTypeTextView);
+        amountTextView = findViewById(R.id.amountTextView);
+
         nameEditText = findViewById(R.id.nameEditText);
         amountEditText = findViewById(R.id.amountEditText);
         recordTypeSpinner = findViewById(R.id.recordTypeSpinner);
+    }
+    void initializeColorVariables()
+    {
+        originalBackgroundTint = nameEditText.getBackgroundTintList();
+        redBackgroundTint = getApplicationContext().getResources().getColorStateList(R.color.red);
+        originalTextColor = nameTextView.getTextColors();
+        redTextColor = getApplicationContext().getResources().getColorStateList(R.color.red);
     }
     boolean missingData()
     {
@@ -143,12 +163,26 @@ public class NewRecordActivity extends AppCompatActivity
                 recordTypeSpinner.getSelectedItemPosition()+","+
                 amountEditText.getText().toString()+",";
     }
+    void emphasizeRequiredFields()
+    {
+        if(nameEditText.getText().toString().isEmpty())
+        {
+            nameEditText.setBackgroundTintList(redBackgroundTint);
+            nameTextView.setTextColor(redTextColor);
+        }
+        else
+        {
+            nameEditText.setBackgroundTintList(originalBackgroundTint);
+            nameTextView.setTextColor(originalTextColor);
+        }
+    }
 
     public void onSaveClick(View view) throws IOException
     {
         String fileName = nameEditText.getText().toString();
         if(missingData() || usedName(fileName))
         {
+            emphasizeRequiredFields();
             return;
         }
         File directory = getApplicationContext().getFilesDir();
