@@ -175,6 +175,28 @@ public class NewRecordActivity extends AppCompatActivity
             nameEditText.setBackgroundTintList(originalBackgroundTint);
             nameTextView.setTextColor(originalTextColor);
         }
+
+        if(selectedNumberedSection() && sectionNumSpinner.getSelectedItem().toString()=="-")
+        {
+            sectionNumSpinner.setBackgroundTintList(redBackgroundTint);
+            sectionNumTextView.setTextColor(redTextColor);
+        }
+        else
+        {
+            sectionNumSpinner.setBackgroundTintList(originalBackgroundTint);
+            sectionNumTextView.setTextColor(originalTextColor);
+        }
+
+        if(amountEditText.getText().toString().isEmpty())
+        {
+            amountEditText.setBackgroundTintList(redBackgroundTint);
+            amountTextView.setTextColor(redTextColor);
+        }
+        else
+        {
+            amountEditText.setBackgroundTintList(originalBackgroundTint);
+            amountTextView.setTextColor(originalTextColor);
+        }
     }
 
     public void onSaveClick(View view) throws IOException
