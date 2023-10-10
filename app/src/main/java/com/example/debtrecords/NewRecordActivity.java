@@ -1,5 +1,9 @@
 package com.example.debtrecords;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.commons.text.RandomStringGenerator;
@@ -220,6 +225,50 @@ public class NewRecordActivity extends AppCompatActivity
         Toast.makeText(NewRecordActivity.this, "Saved in "+directory, Toast.LENGTH_LONG).show();
 
         testDisplaySavedData();
+    }
+    public void onCancelClick(View view) throws  IOException
+    {
+        ExitNewRecordActivity();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        ExitNewRecordActivity();
+    }
+    void ExitNewRecordActivity()
+    {
+        if(dataEntered()) //if there's data entered by user on any of the fields
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(NewRecordActivity.this);
+            builder.setMessage(R.string.new_record_discard_alert);
+            builder.setPositiveButton(R.string.new_record_discard_confirm, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User confirms the discard
+                    Intent intent = new Intent(NewRecordActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton(R.string.new_record_discard_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancels the dialog.
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else //No data was entered by user >> go back immediately
+        {
+            Intent intent = new Intent(NewRecordActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    boolean dataEntered()
+    {
+        if(nameEditText.getText().toString().isEmpty() && amountEditText.getText().toString().isEmpty()) return false;
+        return true;
     }
     void testDisplaySavedData()
     {
