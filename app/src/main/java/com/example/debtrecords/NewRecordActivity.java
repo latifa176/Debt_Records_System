@@ -244,8 +244,7 @@ public class NewRecordActivity extends AppCompatActivity
             builder.setPositiveButton(R.string.new_record_discard_confirm, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // User confirms the discard
-                    Intent intent = new Intent(NewRecordActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    finish();
                 }
             });
             builder.setNegativeButton(R.string.new_record_discard_cancel, new DialogInterface.OnClickListener() {
@@ -260,8 +259,7 @@ public class NewRecordActivity extends AppCompatActivity
         }
         else //No data was entered by user >> go back immediately
         {
-            Intent intent = new Intent(NewRecordActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 
