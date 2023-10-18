@@ -150,6 +150,13 @@ public class NewRecordActivity extends AppCompatActivity
 
         return false;
     }
+    boolean nameNotStartingWithLetter(String newFileName)
+    {
+        if(Character.isLetter(newFileName.charAt(0))) return false;
+
+        Toast.makeText(NewRecordActivity.this, "Name should start with a letter", Toast.LENGTH_SHORT).show();
+        return true;
+    }
     boolean selectedNumberedSection()
     {
         return sectionSpinner.getSelectedItemPosition() != 0 && sectionSpinner.getSelectedItemPosition() != 4; //Not "بدون قسم" NOR "أخرى"
@@ -170,7 +177,7 @@ public class NewRecordActivity extends AppCompatActivity
     }
     void emphasizeRequiredFields()
     {
-        if(nameEditText.getText().toString().isEmpty())
+        if(nameEditText.getText().toString().isEmpty() || nameNotStartingWithLetter(nameEditText.getText().toString()))
         {
             nameEditText.setBackgroundTintList(redBackgroundTint);
             nameTextView.setTextColor(redTextColor);
@@ -207,7 +214,7 @@ public class NewRecordActivity extends AppCompatActivity
     public void onSaveClick(View view) throws IOException
     {
         String fileName = nameEditText.getText().toString();
-        if(missingData() || usedName(fileName))
+        if(missingData() || usedName(fileName) || nameNotStartingWithLetter(fileName))
         {
             emphasizeRequiredFields();
             return;
