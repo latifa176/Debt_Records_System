@@ -51,7 +51,7 @@ public class NewRecordActivity extends AppCompatActivity
         initializeColorVariables();
 
         testDataText=findViewById(R.id.testData);
-        testDisplaySavedData();
+        //testDisplaySavedData();
     }
     void initializeSectionSpinner()
     {
@@ -144,8 +144,11 @@ public class NewRecordActivity extends AppCompatActivity
 
         for (int i = 0; i<allFileNames.length; i++)
         {
-            if(allFileNames[i].equals(newFileName))
+            if(allFileNames[i].equals(newFileName+".txt"))
+            {
+                Toast.makeText(NewRecordActivity.this, "Name is already in use. Please enter a unique name.", Toast.LENGTH_LONG).show();
                 return true;
+            }
         }
 
         return false;
@@ -177,7 +180,8 @@ public class NewRecordActivity extends AppCompatActivity
     }
     void emphasizeRequiredFields()
     {
-        if(nameEditText.getText().toString().isEmpty() || nameNotStartingWithLetter(nameEditText.getText().toString()))
+        String nameText = nameEditText.getText().toString();
+        if(nameText.isEmpty() || nameNotStartingWithLetter(nameText) || usedName(nameText))
         {
             nameEditText.setBackgroundTintList(redBackgroundTint);
             nameTextView.setTextColor(redTextColor);
@@ -231,7 +235,7 @@ public class NewRecordActivity extends AppCompatActivity
         fos.close();
         Toast.makeText(NewRecordActivity.this, "Saved in "+directory, Toast.LENGTH_LONG).show();
 
-        testDisplaySavedData();
+        //testDisplaySavedData();
     }
     public void onCancelClick(View view) throws  IOException
     {
