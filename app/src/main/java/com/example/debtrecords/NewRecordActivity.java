@@ -233,9 +233,11 @@ public class NewRecordActivity extends AppCompatActivity
         fos.write(textToBeSaved.getBytes());
 
         fos.close();
-        Toast.makeText(NewRecordActivity.this, "Saved in "+directory, Toast.LENGTH_LONG).show();
+        Toast.makeText(NewRecordActivity.this, "Saved", Toast.LENGTH_LONG).show();
 
         //testDisplaySavedData();
+
+        finish();
     }
     public void onCancelClick(View view) throws  IOException
     {
