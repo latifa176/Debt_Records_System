@@ -164,6 +164,15 @@ public class NewRecordActivity extends AppCompatActivity
     {
         return sectionSpinner.getSelectedItemPosition() != 0 && sectionSpinner.getSelectedItemPosition() != 4; //Not "بدون قسم" NOR "أخرى"
     }
+    boolean zeroAmount(String amountText)
+    {
+        if(Integer.parseInt(amountText) == 0)
+        {
+            Toast.makeText(NewRecordActivity.this, "Amount cannot be zero", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
     /*String generateID()
     { //Generate random letters for ID
         RandomStringGenerator generator = new RandomStringGenerator.Builder()
@@ -181,6 +190,8 @@ public class NewRecordActivity extends AppCompatActivity
     void emphasizeRequiredFields()
     {
         String nameText = nameEditText.getText().toString();
+        String amountText = amountEditText.getText().toString();
+
         if(nameText.isEmpty() || nameNotStartingWithLetter(nameText) || usedName(nameText))
         {
             nameEditText.setBackgroundTintList(redBackgroundTint);
@@ -203,7 +214,7 @@ public class NewRecordActivity extends AppCompatActivity
             sectionNumTextView.setTextColor(originalTextColor);
         }
 
-        if(amountEditText.getText().toString().isEmpty())
+        if(amountText.isEmpty() || zeroAmount(amountText))
         {
             amountEditText.setBackgroundTintList(redBackgroundTint);
             amountTextView.setTextColor(redTextColor);
@@ -218,7 +229,8 @@ public class NewRecordActivity extends AppCompatActivity
     public void onSaveClick(View view) throws IOException
     {
         String fileName = nameEditText.getText().toString();
-        if(missingData() || usedName(fileName) || nameNotStartingWithLetter(fileName))
+        String amountText = amountEditText.getText().toString();
+        if(missingData() || usedName(fileName) || nameNotStartingWithLetter(fileName) || zeroAmount(amountText))
         {
             emphasizeRequiredFields();
             return;
