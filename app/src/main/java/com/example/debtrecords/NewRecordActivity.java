@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -64,6 +65,24 @@ public class NewRecordActivity extends AppCompatActivity
 
         sectionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sectionSpinner.setAdapter(sectionArrayAdapter);
+
+        sectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //Check the selected item & disable/enable sectionNumSpinner based on it
+                if(sectionSpinner.getSelectedItemPosition()==1 || sectionSpinner.getSelectedItemPosition()==2 || sectionSpinner.getSelectedItemPosition()==3)
+                {
+                    sectionNumSpinner.setEnabled(true);
+                }
+                else sectionNumSpinner.setEnabled(false);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
     void initializeSectionNumSpinner()
     {
