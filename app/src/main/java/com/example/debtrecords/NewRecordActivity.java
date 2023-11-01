@@ -75,7 +75,11 @@ public class NewRecordActivity extends AppCompatActivity
                 {
                     sectionNumSpinner.setEnabled(true);
                 }
-                else sectionNumSpinner.setEnabled(false);
+                else
+                {
+                    sectionNumSpinner.setSelection(0);
+                    sectionNumSpinner.setEnabled(false);
+                }
             }
 
             @Override
