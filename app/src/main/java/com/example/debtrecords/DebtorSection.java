@@ -16,4 +16,16 @@ public enum DebtorSection {
     {
         return value;
     }
+    public static DebtorSection getEnumWithValueOf(String value)
+    {
+        if(value.equals(No_Section.value))
+            return No_Section;
+        else if(value.equals(First.value))
+            return First;
+        else if(value.equals(Second.value))
+            return Second;
+        else if(value.equals(Third.value))
+            return Third;
+        else return Other;
+    }
 }

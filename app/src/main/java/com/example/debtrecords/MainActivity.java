@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,23 +49,55 @@ public class MainActivity extends AppCompatActivity
     {
         RecyclerView recordRecyclerView=findViewById(R.id.recordRecyclerView);
 
-        List<RecordItem> recordItems=new ArrayList<>();
-
-        for(int i=0; i<10; i++)
-        {
-            recordItems.add(
-                    new RecordItem(
-                            "Latifa",
-                            LocalDateTime.now(),
-                            10,
-                            DebtorSection.First,
-                            DebtorSectionNumber.Two,
-                            AmountType.Debt
-                    )
-            );
-        }
+        List<RecordItem> recordItems = generateListOfAllRecordItems();
 
         recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems));
+    }
+    List<RecordItem> generateListOfAllRecordItems()
+    {
+        List<RecordItem> storedRecordItems = new ArrayList<>();
+
+        File directory = getApplicationContext().getFilesDir();
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
+        debtsFolder.mkdirs();
+
+        try {
+            File[] recordFiles = debtsFolder.listFiles();
+            int numOfStoredRecords = recordFiles.length;
+
+            for (int i = 0; i < numOfStoredRecords; i++) {
+                //Step 1: read the content of the record file
+                String content = "";
+                FileInputStream fis = new FileInputStream(recordFiles[i]);
+                int character = fis.read();
+
+                while (character != -1) {
+                    content = content + Character.toString((char) character);
+                    character = fis.read();
+                }
+
+                //Step 2: create the RecordItem object using the content
+                String[] dataSegments = content.split(",");
+                String name = dataSegments[0];
+                String dateCreated = dataSegments[1];
+                String section = dataSegments[2];
+                String sectionNum = dataSegments[3];
+                String recordType = dataSegments[4];
+                String amount = dataSegments[5];
+
+                RecordItem newRecord = new RecordItem(name, LocalDateTime.parse(dateCreated), Float.parseFloat(amount),
+                        DebtorSection.getEnumWithValueOf(section), DebtorSectionNumber.getEnumWithValueOf(sectionNum), AmountType.getEnumWithValueOf(recordType));
+
+                //Step 3: add the record to the list
+                storedRecordItems.add(newRecord);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return storedRecordItems;
     }
     void initializeDrawerLayout()
     {

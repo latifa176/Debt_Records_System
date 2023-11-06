@@ -28,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 
 public class NewRecordActivity extends AppCompatActivity
 {
@@ -205,9 +206,10 @@ public class NewRecordActivity extends AppCompatActivity
     String generateDebtDataString()
     {
         return nameEditText.getText().toString()+","+
-                sectionSpinner.getSelectedItemPosition()+","+
-                sectionNumSpinner.getSelectedItemPosition()+","+
-                recordTypeSpinner.getSelectedItemPosition()+","+
+                LocalDateTime.now()+","+
+                sectionSpinner.getSelectedItem().toString()+","+
+                sectionNumSpinner.getSelectedItem().toString()+","+
+                recordTypeSpinner.getSelectedItem().toString()+","+
                 amountEditText.getText().toString()+",";
     }
     void emphasizeRequiredFields()
