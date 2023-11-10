@@ -23,8 +23,10 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +70,12 @@ public class MainActivity extends AppCompatActivity
             for (int i = 0; i < numOfStoredRecords; i++) {
                 //Step 1: read the content of the record file
                 String content = "";
-                FileInputStream fis = new FileInputStream(recordFiles[i]);
-                int character = fis.read();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(recordFiles[i])));
+                int character = reader.read();
 
                 while (character != -1) {
                     content = content + Character.toString((char) character);
-                    character = fis.read();
+                    character = reader.read();
                 }
 
                 //Step 2: create the RecordItem object using the content
