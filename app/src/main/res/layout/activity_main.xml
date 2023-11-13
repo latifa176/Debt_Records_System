@@ -59,17 +59,16 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/btn_filter_ldpi" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recordRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="570dp"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginTop="135dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="520dp"
+            android:layout_marginTop="135dp"
+            android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
