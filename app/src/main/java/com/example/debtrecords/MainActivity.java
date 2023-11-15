@@ -1,6 +1,7 @@
 package com.example.debtrecords;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     private View currentlyExpandedRecord;
     private DrawerLayout menuDrawerLayout;
     private ActionBarDrawerToggle menuToggle;
+    private RecyclerView recordRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,11 +57,11 @@ public class MainActivity extends AppCompatActivity
 
     void initializeRecyclerView()
     {
-        RecyclerView recordRecyclerView=findViewById(R.id.recordRecyclerView);
+        recordRecyclerView = findViewById(R.id.recordRecyclerView);
 
         List<RecordItem> recordItems = generateListOfAllRecordItems();
 
-        recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems));
+        recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems, getResources().getColorStateList(R.color.record_BG_green), getResources().getColorStateList(R.color.dark_green)));
     }
     List<RecordItem> generateListOfAllRecordItems()
     {
