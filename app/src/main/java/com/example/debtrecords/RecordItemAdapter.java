@@ -45,7 +45,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         holder.section.setText(recordItems.get(position).getSectionOfDebtor()+" "+recordItems.get(position).getSectionNumOfDebtor());
         holder.totalAmount.setText(Float.toString(recordItems.get(position).getTotalAmount()));
         holder.dateAndTime.setText(recordItems.get(position).getFormattedDateCreated());
-        holder.changeHistory.setAdapter(new RecordItemChangeHistoryAdapter(recordItems.get(position).getChangeHistory()));
+        holder.changeHistory.setAdapter(new RecordItemChangeHistoryAdapter(recordItems.get(position).getChangeHistory(), greenTextColor));
         holder.changeHistory.setVisibility(View.INVISIBLE);
 
         if(recordItems.get(position).getAmountType() == AmountType.Credit)

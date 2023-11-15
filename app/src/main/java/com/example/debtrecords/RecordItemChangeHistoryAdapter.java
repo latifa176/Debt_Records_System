@@ -1,5 +1,6 @@
 package com.example.debtrecords;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import java.util.List;
 public class RecordItemChangeHistoryAdapter extends RecyclerView.Adapter<RecordItemChangeHistoryAdapter.RecordItemChangeHistoryViewHolder>
 {
     private List<AmountChange> changeHistory;
+    private ColorStateList greenTextColor;
 
-    public RecordItemChangeHistoryAdapter(List<AmountChange> changeHistory)
+    public RecordItemChangeHistoryAdapter(List<AmountChange> changeHistory, ColorStateList greenTxt)
     {
         this.changeHistory = changeHistory;
+        greenTextColor = greenTxt;
     }
 
     @NonNull
@@ -38,6 +41,11 @@ public class RecordItemChangeHistoryAdapter extends RecyclerView.Adapter<RecordI
         holder.changeType.setText(changeHistory.get(position).getAmountChangeTypeString());
         holder.changeAmount.setText(changeHistory.get(position).getChangeAmountString());
         holder.changeDateAndTime.setText(changeHistory.get(position).getFormattedDateChanged());
+
+        if(changeHistory.get(position).getChangeType() == AmountType.Credit)
+        {
+            holder.changeAmount.setTextColor(greenTextColor);
+        }
     }
 
     @Override
