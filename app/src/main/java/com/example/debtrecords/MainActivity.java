@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,12 +41,14 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout menuDrawerLayout;
     private ActionBarDrawerToggle menuToggle;
     private RecyclerView recordRecyclerView;
+    private TextView noRecordItemTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        noRecordItemTextView = findViewById(R.id.noRecordItemTextView);
     }
 
     @Override
@@ -60,7 +63,13 @@ public class MainActivity extends AppCompatActivity
         recordRecyclerView = findViewById(R.id.recordRecyclerView);
 
         List<RecordItem> recordItems = generateListOfAllRecordItems();
+        if(recordItems.size()==0) //No record item stored yet
+        {
+            noRecordItemTextView.setText(R.string.no_record_item_stored);
+            return;
+        }
 
+        noRecordItemTextView.setText("");
         recordRecyclerView.setAdapter(new RecordItemAdapter(recordItems, getResources().getColorStateList(R.color.record_BG_green), getResources().getColorStateList(R.color.dark_green)));
     }
     List<RecordItem> generateListOfAllRecordItems()
