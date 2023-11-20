@@ -1,5 +1,7 @@
 package com.example.debtrecords;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,6 +24,8 @@ import com.example.debtrecords.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle menuToggle;
     private RecyclerView recordRecyclerView;
     private TextView noRecordItemTextView;
+    private static int defaultRecordItemHeightInDp = 100;
+    private static int defaultRecordItemHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         noRecordItemTextView = findViewById(R.id.noRecordItemTextView);
+
+        defaultRecordItemHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, defaultRecordItemHeightInDp, getResources().getDisplayMetrics());
     }
 
     @Override
@@ -157,15 +166,43 @@ public class MainActivity extends AppCompatActivity
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
         currentlyExpandedRecord = view;
 
-        Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),
+        /*Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.expand_history);
-        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);*/
+
+        View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT).setDuration(300);
+        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
+            @Override public void onAnimationUpdate(ValueAnimator animation){
+                Integer value = (Integer) animation.getAnimatedValue();
+                recordContainer.getLayoutParams().height = value.intValue();
+                recordContainer.requestLayout();
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(slideAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.start();
     }
     void shrinkRecord(View view)
     {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
+        /*Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.shrink_history);
-        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);*/
+
+        View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), defaultRecordItemHeight).setDuration(300);
+        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
+            @Override public void onAnimationUpdate(ValueAnimator animation){
+                Integer value = (Integer) animation.getAnimatedValue();
+                recordContainer.getLayoutParams().height = value.intValue();
+                recordContainer.requestLayout();
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(slideAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.start();
 
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
         currentlyExpandedRecord=null;

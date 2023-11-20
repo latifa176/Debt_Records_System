@@ -12,7 +12,7 @@
     <RelativeLayout
         android:id="@+id/recordItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@color/record_BG_red"
         android:orientation="vertical"
         android:padding="10dp">
