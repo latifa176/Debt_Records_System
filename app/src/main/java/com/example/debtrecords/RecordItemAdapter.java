@@ -47,6 +47,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         holder.dateAndTime.setText(recordItems.get(position).getFormattedDateCreated());
         holder.changeHistory.setAdapter(new RecordItemChangeHistoryAdapter(recordItems.get(position).getChangeHistory(), greenTextColor));
         holder.changeHistory.setVisibility(View.INVISIBLE);
+        holder.changeAmountLayout.setVisibility(View.GONE);
 
         if(recordItems.get(position).getAmountType() == AmountType.Credit)
         {
@@ -65,6 +66,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
         private TextView name, section, totalAmount, dateAndTime;
         private RecyclerView changeHistory;
         private RelativeLayout backgroundLayout;
+        private View changeAmountLayout;
 
         public RecordItemViewHolder(@NonNull View itemView)
         {
@@ -75,6 +77,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
             dateAndTime=itemView.findViewById(R.id.dateAndTime);
             changeHistory=itemView.findViewById((R.id.changeHistoryRecyclerView));
             backgroundLayout=itemView.findViewById(R.id.recordItem);
+            changeAmountLayout=itemView.findViewById(R.id.changeAmountLayout);
         }
     }
 }

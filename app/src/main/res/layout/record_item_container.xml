@@ -106,6 +106,8 @@
             android:visibility="invisible"
             app:srcCompat="@drawable/btn_edit_cropped" />
 
+        <include layout="@layout/edit_amount_container"/>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
