@@ -30,6 +30,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -158,12 +159,20 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, NewRecordActivity.class);
         startActivity(intent);
     }
+    public void onEditAmountClick(View view)
+    {
+        Toast.makeText(MainActivity.this, "Attempt to edit amount", Toast.LENGTH_SHORT).show();
+    }
 
     void expandRecord(View view)
     {
         if(currentlyExpandedRecord!=null) //if a different record was currently expanded, shrink it
             shrinkRecord(currentlyExpandedRecord);
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
+        View editAmountButton = view.findViewById(R.id.editAmountButton);
+        editAmountButton.setVisibility(View.VISIBLE);
+        editAmountButton.setClickable(true);
+
         currentlyExpandedRecord = view;
 
         /*Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),
@@ -205,6 +214,9 @@ public class MainActivity extends AppCompatActivity
         animatorSet.start();
 
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
+        View editAmountButton = view.findViewById(R.id.editAmountButton);
+        editAmountButton.setVisibility(View.INVISIBLE);
+        editAmountButton.setClickable(false);
         currentlyExpandedRecord=null;
     }
 }

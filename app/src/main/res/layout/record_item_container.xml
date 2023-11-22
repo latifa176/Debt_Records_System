@@ -93,6 +93,19 @@
             android:paddingBottom="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <ImageButton
+            android:id="@+id/editAmountButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:clickable="false"
+            android:onClick="onEditAmountClick"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/btn_edit_cropped" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
