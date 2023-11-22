@@ -32,8 +32,6 @@ import java.time.LocalDateTime;
 
 public class NewRecordActivity extends AppCompatActivity
 {
-    private TextView testDataText;
-
     private TextView nameTextView, sectionTextView, sectionNumTextView, recordTypeTextView, amountTextView;
     private EditText nameEditText, amountEditText;
     private Spinner sectionSpinner, sectionNumSpinner, recordTypeSpinner;
@@ -51,9 +49,6 @@ public class NewRecordActivity extends AppCompatActivity
 
         findViews();
         initializeColorVariables();
-
-        testDataText=findViewById(R.id.testData);
-        //testDisplaySavedData();
     }
     void initializeSectionSpinner()
     {
@@ -317,30 +312,5 @@ public class NewRecordActivity extends AppCompatActivity
     {
         if(nameEditText.getText().toString().isEmpty() && amountEditText.getText().toString().isEmpty()) return false;
         return true;
-    }
-    void testDisplaySavedData()
-    {
-        File directory = getApplicationContext().getFilesDir();
-        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
-        String content="";
-
-        try
-        {
-            File[] files = debtsFolder.listFiles();
-            FileInputStream fis = new FileInputStream(files[0]);
-            int character = fis.read();
-
-            while (character != -1)
-            {
-                content = content + Character.toString((char)character); //Appending the character into the content string
-                character = fis.read(); //Read the next character
-            }
-
-            testDataText.setText(content);
-        }
-        catch (Exception e)
-        {
-            testDataText.setText(e.toString());
-        }
     }
 }
