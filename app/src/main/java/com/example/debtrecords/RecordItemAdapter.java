@@ -77,7 +77,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Re
             dateAndTime=itemView.findViewById(R.id.dateAndTime);
             changeHistory=itemView.findViewById((R.id.changeHistoryRecyclerView));
             backgroundLayout=itemView.findViewById(R.id.recordItem);
-            changeAmountLayout=itemView.findViewById(R.id.changeAmountLayout);
+            changeAmountLayout=itemView.findViewById(R.id.editAmountContainer);
         }
     }
 }

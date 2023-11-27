@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recordRecyclerView;
     private TextView noRecordItemTextView;
     private static int defaultRecordItemHeightInDp = 100;
-    private static int defaultRecordItemHeight;
+    private static int editAmountContainerHeightInDp = 120;
+    private static int defaultRecordItemHeight, editAmountContainerHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         noRecordItemTextView = findViewById(R.id.noRecordItemTextView);
 
         defaultRecordItemHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, defaultRecordItemHeightInDp, getResources().getDisplayMetrics());
+        editAmountContainerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, editAmountContainerHeightInDp, getResources().getDisplayMetrics());
     }
 
     @Override
@@ -161,7 +163,26 @@ public class MainActivity extends AppCompatActivity
     }
     public void onEditAmountClick(View view)
     {
-        Toast.makeText(MainActivity.this, "Attempt to edit amount", Toast.LENGTH_SHORT).show();
+        //First: shrink the record item
+        View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), defaultRecordItemHeight + editAmountContainerHeight).setDuration(300);
+        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
+            @Override public void onAnimationUpdate(ValueAnimator animation){
+                Integer value = (Integer) animation.getAnimatedValue();
+                recordContainer.getLayoutParams().height = value.intValue();
+                recordContainer.requestLayout();
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(slideAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.start();
+
+        //Second: hide the change history list
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
+
+        //Third: show the edit amount container
+        currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.VISIBLE);
     }
 
     void expandRecord(View view)
