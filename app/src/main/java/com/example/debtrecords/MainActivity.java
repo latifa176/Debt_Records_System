@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity
         View editAmountButton = view.findViewById(R.id.editAmountButton);
         editAmountButton.setVisibility(View.INVISIBLE);
         editAmountButton.setClickable(false);
+        view.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
         currentlyExpandedRecord=null;
     }
     void animateContainerHeight(View animatedContainer, int fromHeight, int toHeight, int duration)
