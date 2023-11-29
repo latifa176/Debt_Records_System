@@ -75,6 +75,7 @@
         android:id="@+id/cancelAmountChangeButton"
         style="@style/LightButton"
         android:layout_marginTop="50dp"
+        android:onClick="onCancelAmountChangeClick"
         android:text="إلغاء"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

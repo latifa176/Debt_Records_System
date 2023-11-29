@@ -151,15 +151,27 @@ public class MainActivity extends AppCompatActivity
     }
     public void onEditAmountClick(View view)
     {
-        //First: shrink the record item
+        //First: animate the record item height
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), defaultRecordItemHeight + editAmountContainerHeight, 300);
 
         //Second: hide the change history list
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
 
-        //Third: show the edit amount container
+        //Finally: show the edit amount container
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.VISIBLE);
+    }
+    public void onCancelAmountChangeClick(View view)
+    {
+        //First: hide the edit amount container
+        currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
+
+        //Second: show the change history list
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
+
+        //Finally: re-animate the record item height
+        View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
+        animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
     }
 
     void expandRecord(View view)
