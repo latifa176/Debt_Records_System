@@ -3,7 +3,6 @@ package com.example.debtrecords;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,23 +13,12 @@ import android.util.TypedValue;
 import android.view.View;
 
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.debtrecords.databinding.ActivityMainBinding;
-
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -165,18 +153,7 @@ public class MainActivity extends AppCompatActivity
     {
         //First: shrink the record item
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), defaultRecordItemHeight + editAmountContainerHeight).setDuration(300);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
-            @Override public void onAnimationUpdate(ValueAnimator animation){
-                Integer value = (Integer) animation.getAnimatedValue();
-                recordContainer.getLayoutParams().height = value.intValue();
-                recordContainer.requestLayout();
-            }
-        });
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(slideAnimator);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.start();
+        animateContainerHeight(recordContainer, recordContainer.getHeight(), defaultRecordItemHeight + editAmountContainerHeight, 300);
 
         //Second: hide the change history list
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
@@ -196,48 +173,33 @@ public class MainActivity extends AppCompatActivity
 
         currentlyExpandedRecord = view;
 
-        /*Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.expand_history);
-        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);*/
-
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT).setDuration(300);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
-            @Override public void onAnimationUpdate(ValueAnimator animation){
-                Integer value = (Integer) animation.getAnimatedValue();
-                recordContainer.getLayoutParams().height = value.intValue();
-                recordContainer.requestLayout();
-            }
-        });
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(slideAnimator);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.start();
+        animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
     }
     void shrinkRecord(View view)
     {
-        /*Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.shrink_history);
-        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).startAnimation(animation);*/
-
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(recordContainer.getHeight(), defaultRecordItemHeight).setDuration(300);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
-            @Override public void onAnimationUpdate(ValueAnimator animation){
-                Integer value = (Integer) animation.getAnimatedValue();
-                recordContainer.getLayoutParams().height = value.intValue();
-                recordContainer.requestLayout();
-            }
-        });
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(slideAnimator);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.start();
+        animateContainerHeight(recordContainer, recordContainer.getHeight(), defaultRecordItemHeight, 300);
 
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
         View editAmountButton = view.findViewById(R.id.editAmountButton);
         editAmountButton.setVisibility(View.INVISIBLE);
         editAmountButton.setClickable(false);
         currentlyExpandedRecord=null;
+    }
+    void animateContainerHeight(View animatedContainer, int fromHeight, int toHeight, int duration)
+    {
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(fromHeight, toHeight).setDuration(duration);
+        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(){
+            @Override public void onAnimationUpdate(ValueAnimator animator){
+                Integer value = (Integer) animator.getAnimatedValue();
+                animatedContainer.getLayoutParams().height = value.intValue();
+                animatedContainer.requestLayout();
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(slideAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.start();
     }
 }
