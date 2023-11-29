@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -158,6 +159,10 @@ public class MainActivity extends AppCompatActivity
         //Second: hide the change history list
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
 
+        //Third: change the edit button image
+        ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
+        editButton.setImageResource(R.drawable.btn_edit_pressed_cropped);
+
         //Finally: show the edit amount container
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.VISIBLE);
     }
@@ -168,6 +173,10 @@ public class MainActivity extends AppCompatActivity
 
         //Second: show the change history list
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
+
+        //Third: change the edit button image
+        ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
+        editButton.setImageResource(R.drawable.btn_edit_cropped);
 
         //Finally: re-animate the record item height
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
@@ -193,11 +202,15 @@ public class MainActivity extends AppCompatActivity
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), defaultRecordItemHeight, 300);
 
+        //Hide change history list
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
+        //Hide edit amount button & container
         View editAmountButton = view.findViewById(R.id.editAmountButton);
+        ((ImageButton)editAmountButton).setImageResource(R.drawable.btn_edit_cropped);
         editAmountButton.setVisibility(View.INVISIBLE);
         editAmountButton.setClickable(false);
         view.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
+
         currentlyExpandedRecord=null;
     }
     void animateContainerHeight(View animatedContainer, int fromHeight, int toHeight, int duration)
