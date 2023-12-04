@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity
 
         defaultRecordItemHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, defaultRecordItemHeightInDp, getResources().getDisplayMetrics());
         editAmountContainerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, editAmountContainerHeightInDp, getResources().getDisplayMetrics());
+        initializeColorVariables();
     }
 
     @Override
@@ -132,11 +133,11 @@ public class MainActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    void initializeColorVariables(EditText field, TextView fieldLabel)
+    void initializeColorVariables()
     {
-        originalBackgroundTint = field.getBackgroundTintList();
+        originalBackgroundTint = getApplicationContext().getResources().getColorStateList(R.color.light_green);
         redBackgroundTint = getApplicationContext().getResources().getColorStateList(R.color.red);
-        originalTextColor = fieldLabel.getTextColors();
+        originalTextColor = getApplicationContext().getResources().getColorStateList(R.color.dark_green);
         redTextColor = getApplicationContext().getResources().getColorStateList(R.color.red);
     }
 
@@ -222,8 +223,6 @@ public class MainActivity extends AppCompatActivity
     }
     void emphasizeField(EditText field, TextView fieldLabel, boolean isEmphasized)
     {
-        initializeColorVariables(field, fieldLabel);
-
         if(isEmphasized)
         {
             field.setBackgroundTintList(redBackgroundTint);
