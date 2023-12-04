@@ -3,6 +3,7 @@ package com.example.debtrecords;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private static int defaultRecordItemHeightInDp = 100;
     private static int editAmountContainerHeightInDp = 120;
     private static int defaultRecordItemHeight, editAmountContainerHeight;
+    private ColorStateList originalBackgroundTint, originalTextColor, redBackgroundTint, redTextColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -129,6 +132,13 @@ public class MainActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+    void initializeColorVariables(EditText field, TextView fieldLabel)
+    {
+        originalBackgroundTint = field.getBackgroundTintList();
+        redBackgroundTint = getApplicationContext().getResources().getColorStateList(R.color.red);
+        originalTextColor = fieldLabel.getTextColors();
+        redTextColor = getApplicationContext().getResources().getColorStateList(R.color.red);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
@@ -181,6 +191,49 @@ public class MainActivity extends AppCompatActivity
         //Finally: re-animate the record item height
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
+    }
+    public void onSaveAmountChangeClick(View view)
+    {
+        //First: validate the input
+        EditText amountChangeEditText = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText);
+        TextView amountChangeTextView = currentlyExpandedRecord.findViewById(R.id.amountChangeTextView);
+        if(amountChangeEditText.getText().toString().isEmpty() || Integer.parseInt(amountChangeEditText.getText().toString()) == 0)
+        {
+            emphasizeField(amountChangeEditText, amountChangeTextView, true);
+            return;
+        }
+        emphasizeField(amountChangeEditText, amountChangeTextView, false); //to change the color back to normal
+
+        //Input is valid, proceed:
+        //Second: save the amount change and recalculate the total amount
+        //-----------WRITE CODE HERE
+
+        //Third: hide the edit amount container and show the change history list
+        currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
+        currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
+
+        //Forth: change the edit button image
+        ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
+        editButton.setImageResource(R.drawable.btn_edit_cropped);
+
+        //Finally: re-animate the record item height
+        View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
+        animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
+    }
+    void emphasizeField(EditText field, TextView fieldLabel, boolean isEmphasized)
+    {
+        initializeColorVariables(field, fieldLabel);
+
+        if(isEmphasized)
+        {
+            field.setBackgroundTintList(redBackgroundTint);
+            fieldLabel.setTextColor(redTextColor);
+        }
+        else
+        {
+            field.setBackgroundTintList(originalBackgroundTint);
+            fieldLabel.setTextColor(originalTextColor);
+        }
     }
 
     void expandRecord(View view)
