@@ -179,13 +179,16 @@ public class MainActivity extends AppCompatActivity
     }
     public void onCancelAmountChangeClick(View view)
     {
-        //First: hide the edit amount container
+        //First: change the amount field color back to normal
+        emphasizeChangeAmountField(false);
+
+        //Second: hide the edit amount container
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
 
-        //Second: show the change history list
+        //Third: show the change history list
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
 
-        //Third: change the edit button image
+        //Forth: change the edit button image
         ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
         editButton.setImageResource(R.drawable.btn_edit_cropped);
 
@@ -197,23 +200,24 @@ public class MainActivity extends AppCompatActivity
     {
         //First: validate the input
         EditText amountChangeEditText = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText);
-        TextView amountChangeTextView = currentlyExpandedRecord.findViewById(R.id.amountChangeTextView);
         if(amountChangeEditText.getText().toString().isEmpty() || Integer.parseInt(amountChangeEditText.getText().toString()) == 0)
         {
-            emphasizeField(amountChangeEditText, amountChangeTextView, true);
+            emphasizeChangeAmountField(true);
             return;
         }
-        emphasizeField(amountChangeEditText, amountChangeTextView, false); //to change the color back to normal
 
         //Input is valid, proceed:
-        //Second: save the amount change and recalculate the total amount
+        //Second: change the amount field color back to normal
+        emphasizeChangeAmountField(false);
+
+        //Third: save the amount change and recalculate the total amount
         //-----------WRITE CODE HERE
 
-        //Third: hide the edit amount container and show the change history list
+        //Forth: hide the edit amount container and show the change history list
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
         currentlyExpandedRecord.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.VISIBLE);
 
-        //Forth: change the edit button image
+        //Fifth: change the edit button image
         ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
         editButton.setImageResource(R.drawable.btn_edit_cropped);
 
@@ -221,17 +225,20 @@ public class MainActivity extends AppCompatActivity
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
     }
-    void emphasizeField(EditText field, TextView fieldLabel, boolean isEmphasized)
+    void emphasizeChangeAmountField(boolean isEmphasized)
     {
+        EditText amountChangeEditText = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText);
+        TextView amountChangeTextView = currentlyExpandedRecord.findViewById(R.id.amountChangeTextView);
+
         if(isEmphasized)
         {
-            field.setBackgroundTintList(redBackgroundTint);
-            fieldLabel.setTextColor(redTextColor);
+            amountChangeEditText.setBackgroundTintList(redBackgroundTint);
+            amountChangeTextView.setTextColor(redTextColor);
         }
         else
         {
-            field.setBackgroundTintList(originalBackgroundTint);
-            fieldLabel.setTextColor(originalTextColor);
+            amountChangeEditText.setBackgroundTintList(originalBackgroundTint);
+            amountChangeTextView.setTextColor(originalTextColor);
         }
     }
 
@@ -256,6 +263,9 @@ public class MainActivity extends AppCompatActivity
 
         //Hide change history list
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
+        //If edit amount container was expanded, make sure the amount field is not red
+        if(currentlyExpandedRecord.findViewById(R.id.amountChangeEditText).getVisibility() == View.VISIBLE)
+            emphasizeChangeAmountField(false);
         //Hide edit amount button & container
         View editAmountButton = view.findViewById(R.id.editAmountButton);
         ((ImageButton)editAmountButton).setImageResource(R.drawable.btn_edit_cropped);
