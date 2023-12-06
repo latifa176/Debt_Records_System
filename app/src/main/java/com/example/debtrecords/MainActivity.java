@@ -179,8 +179,9 @@ public class MainActivity extends AppCompatActivity
     }
     public void onCancelAmountChangeClick(View view)
     {
-        //First: change the amount field color back to normal
+        //First: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
+        emptyChangeAmountField();
 
         //Second: hide the edit amount container
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
@@ -207,8 +208,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         //Input is valid, proceed:
-        //Second: change the amount field color back to normal
+        //Second: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
+        emptyChangeAmountField();
 
         //Third: save the amount change and recalculate the total amount
         //-----------WRITE CODE HERE
@@ -241,6 +243,11 @@ public class MainActivity extends AppCompatActivity
             amountChangeTextView.setTextColor(originalTextColor);
         }
     }
+    void emptyChangeAmountField()
+    {
+        EditText amountChangeEditText = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText);
+        amountChangeEditText.setText("");
+    }
 
     void expandRecord(View view)
     {
@@ -263,9 +270,11 @@ public class MainActivity extends AppCompatActivity
 
         //Hide change history list
         view.findViewById(R.id.changeHistoryRecyclerView).setVisibility(View.INVISIBLE);
-        //If edit amount container was expanded, make sure the amount field is not red
-        if(currentlyExpandedRecord.findViewById(R.id.amountChangeEditText).getVisibility() == View.VISIBLE)
+        //If edit amount container was expanded, make sure the amount field is not red and empty
+        if(currentlyExpandedRecord.findViewById(R.id.amountChangeEditText).getVisibility() == View.VISIBLE) {
             emphasizeChangeAmountField(false);
+            emptyChangeAmountField();
+        }
         //Hide edit amount button & container
         View editAmountButton = view.findViewById(R.id.editAmountButton);
         ((ImageButton)editAmountButton).setImageResource(R.drawable.btn_edit_cropped);
