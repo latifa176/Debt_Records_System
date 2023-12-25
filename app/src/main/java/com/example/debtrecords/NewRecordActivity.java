@@ -55,7 +55,7 @@ public class NewRecordActivity extends AppCompatActivity
         sectionSpinner = findViewById(R.id.sectionSpinner);
         ArrayAdapter<DebtorSection> sectionArrayAdapter = new ArrayAdapter<DebtorSection>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         DebtorSection.values()
                 );
 
@@ -89,7 +89,7 @@ public class NewRecordActivity extends AppCompatActivity
         sectionNumSpinner = findViewById(R.id.sectionNumSpinner);
         ArrayAdapter<DebtorSectionNumber> sectionNumArrayAdapter = new ArrayAdapter<DebtorSectionNumber>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         DebtorSectionNumber.values()
                 );
 
@@ -101,7 +101,7 @@ public class NewRecordActivity extends AppCompatActivity
         Spinner recordTypeSpinner = findViewById(R.id.recordTypeSpinner);
         ArrayAdapter<AmountType> recordTypeArrayAdapter = new ArrayAdapter<AmountType>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         AmountType.values()
                 );
 

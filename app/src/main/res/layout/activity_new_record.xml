@@ -38,6 +38,7 @@
         android:id="@+id/nameEditText"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/bluish_green"
         android:backgroundTint="@color/bluish_green"
         android:ems="10"
         android:inputType="textPersonName"
