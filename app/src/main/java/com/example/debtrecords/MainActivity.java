@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity
     {
         //First: validate the input
         EditText amountChangeEditText = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText);
-        if(amountChangeEditText.getText().toString().isEmpty() || Integer.parseInt(amountChangeEditText.getText().toString()) == 0)
+        if(amountChangeEditText.getText().toString().isEmpty() || Float.parseFloat(amountChangeEditText.getText().toString()) == 0)
         {
             emphasizeChangeAmountField(true);
             return;

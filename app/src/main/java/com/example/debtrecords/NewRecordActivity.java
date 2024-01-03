@@ -185,7 +185,7 @@ public class NewRecordActivity extends AppCompatActivity
     }
     boolean zeroAmount(String amountText)
     {
-        if(Integer.parseInt(amountText) == 0)
+        if(Float.parseFloat(amountText) == 0)
         {
             Toast.makeText(NewRecordActivity.this, "Amount cannot be zero", Toast.LENGTH_LONG).show();
             return true;
