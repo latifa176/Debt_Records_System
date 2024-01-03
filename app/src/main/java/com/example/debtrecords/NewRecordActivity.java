@@ -200,12 +200,18 @@ public class NewRecordActivity extends AppCompatActivity
     }*/
     String generateDebtDataString()
     {
-        return nameEditText.getText().toString()+","+
+        return nameEditText.getText().toString()+"/"+
+                LocalDateTime.now()+"/"+
+                sectionSpinner.getSelectedItem().toString()+"/"+
+                sectionNumSpinner.getSelectedItem().toString()+"/"+
+                recordTypeSpinner.getSelectedItem().toString()+"/"+
+                amountEditText.getText().toString()+"/"+ //<< total amount
+
+                //This is for the amount change history:
                 LocalDateTime.now()+","+
-                sectionSpinner.getSelectedItem().toString()+","+
-                sectionNumSpinner.getSelectedItem().toString()+","+
-                recordTypeSpinner.getSelectedItem().toString()+","+
-                amountEditText.getText().toString()+",";
+                amountEditText.getText().toString()+","+
+                recordTypeSpinner.getSelectedItem().toString();
+
     }
     void emphasizeRequiredFields()
     {

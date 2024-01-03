@@ -17,7 +17,7 @@ public class RecordItem
     private AmountType amountType;
     private List<AmountChange> changeHistory;
 
-    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType)
+    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType, String amountChangeHistory)
     {
         this.nameOfDebtor = nameOfDebtor;
         this.dateCreated = dateCreated;
@@ -25,7 +25,20 @@ public class RecordItem
         this.sectionOfDebtor = sectionOfDebtor;
         this.sectionNumOfDebtor = sectionNumOfDebtor;
         this.amountType = amountType;
+
         changeHistory = new LinkedList<>();
+        String[] amountChangeHistorySegments = amountChangeHistory.split("/");
+        for(int i=0; i<amountChangeHistorySegments.length; i++)
+        {
+            String[] amountChangeItemSegments = amountChangeHistorySegments[i].split(",");
+            String dateChanged = amountChangeItemSegments[0];
+            String additionalAmount = amountChangeItemSegments[1];
+            String additionalAmountType = amountChangeItemSegments[2];
+            changeHistory.add(new AmountChange(LocalDateTime.parse(dateChanged), Float.parseFloat(additionalAmount), AmountType.getEnumWithValueOf(additionalAmountType)));
+        }
+    }
+    public void AddNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType amountType)
+    {
         changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
     }
     public String getNameOfDebtor() {

@@ -103,16 +103,21 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 //Step 2: create the RecordItem object using the content
-                String[] dataSegments = content.split(",");
+                String[] dataSegments = content.split("/");
                 String name = dataSegments[0];
                 String dateCreated = dataSegments[1];
                 String section = dataSegments[2];
                 String sectionNum = dataSegments[3];
                 String recordType = dataSegments[4];
-                String amount = dataSegments[5];
+                String totalAmount = dataSegments[5];
+                String amountChangeHistory = "";
+                for(int j=6; j<dataSegments.length; j++) //loop through the rest of data segments that represent the amountChangeHistory change history:
+                {
+                    amountChangeHistory += dataSegments[j];
+                }
 
-                RecordItem newRecord = new RecordItem(name, LocalDateTime.parse(dateCreated), Float.parseFloat(amount),
-                        DebtorSection.getEnumWithValueOf(section), DebtorSectionNumber.getEnumWithValueOf(sectionNum), AmountType.getEnumWithValueOf(recordType));
+                RecordItem newRecord = new RecordItem(name, LocalDateTime.parse(dateCreated), Float.parseFloat(totalAmount),
+                        DebtorSection.getEnumWithValueOf(section), DebtorSectionNumber.getEnumWithValueOf(sectionNum), AmountType.getEnumWithValueOf(recordType), amountChangeHistory);
 
                 //Step 3: add the record to the list
                 storedRecordItems.add(newRecord);
@@ -218,12 +223,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         //Input is valid, proceed:
-        //Second: change the amount field color back to normal and empty the field
+        //Second: save the amount change and recalculate the total amount
+
+
+        //Third: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
         emptyChangeAmountField();
-
-        //Third: save the amount change and recalculate the total amount
-        //-----------WRITE CODE HERE
 
         //Forth: hide the edit amount container and show the change history list
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.GONE);
