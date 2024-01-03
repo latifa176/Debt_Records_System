@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -174,8 +176,16 @@ public class MainActivity extends AppCompatActivity
         ImageButton editButton = currentlyExpandedRecord.findViewById(R.id.editAmountButton);
         editButton.setImageResource(R.drawable.btn_edit_pressed_cropped);
 
-        //Finally: show the edit amount container
+        //Finally: show the edit amount container and initialize the spinner
         currentlyExpandedRecord.findViewById(R.id.editAmountContainer).setVisibility(View.VISIBLE);
+        Spinner typeOfChangeSpinner = currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner);
+        ArrayAdapter<AmountType> typeOfChangeSpinnerAdaptor = new ArrayAdapter<AmountType>
+                (this,
+                        R.layout.spinner_item,
+                        AmountType.values()
+                );
+        typeOfChangeSpinnerAdaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeOfChangeSpinner.setAdapter(typeOfChangeSpinnerAdaptor);
     }
     public void onCancelAmountChangeClick(View view)
     {
