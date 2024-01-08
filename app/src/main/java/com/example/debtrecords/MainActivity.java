@@ -24,10 +24,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
-
+    private List<RecordItem> recordItems;
     private View currentlyExpandedRecord;
     private DrawerLayout menuDrawerLayout;
     private ActionBarDrawerToggle menuToggle;
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     {
         recordRecyclerView = findViewById(R.id.recordRecyclerView);
 
-        List<RecordItem> recordItems = generateListOfAllRecordItems();
+        recordItems = generateListOfAllRecordItems();
         if(recordItems.size()==0) //No record item stored yet
         {
             noRecordItemTextView.setText(R.string.no_record_item_stored);
@@ -224,7 +227,8 @@ public class MainActivity extends AppCompatActivity
 
         //Input is valid, proceed:
         //Second: save the amount change and recalculate the total amount
-
+        WriteAmountChangeToFile();
+        //WRITE CODE TO UPDATE THE CORRESPONDING RECORD ITEM HERE
 
         //Third: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
@@ -241,6 +245,30 @@ public class MainActivity extends AppCompatActivity
         //Finally: re-animate the record item height
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
+    }
+    void WriteAmountChangeToFile()
+    {
+        File directory = getApplicationContext().getFilesDir();
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
+        File targetFile = new File(debtsFolder, ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString() + ".txt");
+
+        String textToBeAppended = generateAmountChangeDataString();
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(targetFile);
+            fos.write(textToBeAppended.getBytes());
+
+            fos.close();
+            Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e){}
+    }
+    String generateAmountChangeDataString()
+    {
+        String amount = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText).toString();
+        String changeType = ((Spinner) currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner)).getSelectedItem().toString();
+        return "/"+LocalDateTime.now()+"/"+amount+"/"+changeType;
     }
     void emphasizeChangeAmountField(boolean isEmphasized)
     {
