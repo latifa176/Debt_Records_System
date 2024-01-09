@@ -226,9 +226,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         //Input is valid, proceed:
-        //Second: save the amount change and recalculate the total amount
-        WriteAmountChangeToFile();
-        //WRITE CODE TO UPDATE THE CORRESPONDING RECORD ITEM HERE
+        //Second: save the amount change
+        String dateSaved = LocalDateTime.now().toString();
+        String amount = ((TextView) currentlyExpandedRecord.findViewById(R.id.amountChangeEditText)).getText().toString();
+        String changeType = ((Spinner) currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner)).getSelectedItem().toString();
+        String nameOfDebtor = ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString();
+        int indexOfCorrespondingRecordItem = updateCorrespondingRecordItem(nameOfDebtor, dateSaved, amount, changeType);
+        writeAmountChangeToFile(dateSaved, amount, changeType, indexOfCorrespondingRecordItem);
 
         //Third: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
@@ -246,29 +250,72 @@ public class MainActivity extends AppCompatActivity
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
     }
-    void WriteAmountChangeToFile()
+    void writeAmountChangeToFile(String date, String amount, String changeType, int indexOfRecordItem)
     {
         File directory = getApplicationContext().getFilesDir();
         File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
         File targetFile = new File(debtsFolder, ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString() + ".txt");
 
-        String textToBeAppended = generateAmountChangeDataString();
+        String textToBeAppended = "/"+date+","+amount+","+changeType;
 
         try
         {
-            FileOutputStream fos = new FileOutputStream(targetFile);
-            fos.write(textToBeAppended.getBytes());
+            FileOutputStream fosForAppending = new FileOutputStream(targetFile, true);
+            fosForAppending.write(textToBeAppended.getBytes());
+            fosForAppending.close();
 
-            fos.close();
+            //*** Rewriting the TOTAL AMOUNT in data file ***
+            FileOutputStream fosForRewriting = new FileOutputStream(targetFile);
+            //1) Splitting the data content string of this file
+            String content = "";
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile)));
+            int character = br.read();
+            while(character != -1)
+            {
+                content += (char) character;
+                character = br.read();
+            }
+            String[] thisFileDataSegments = content.split("/");
+            String textBeforeTotalAmount = thisFileDataSegments[0]+"/"+thisFileDataSegments[1]+"/"+thisFileDataSegments[2]+"/"+thisFileDataSegments[3]+"/"+thisFileDataSegments[4]+"/";
+            String newTotalAmount = "" + recordItems.get(indexOfRecordItem).getTotalAmount();
+            String textAfterTotalAmount = "";
+            for(int i=6; i<thisFileDataSegments.length; i++) //loop through the rest of the segments to produce the text after total amount
+            {
+                textAfterTotalAmount += "/"+thisFileDataSegments[i];
+            }
+            //2) Merging the produced string variables
+            String mergedNewContent = textBeforeTotalAmount+newTotalAmount+textAfterTotalAmount;
+            fosForRewriting.write(mergedNewContent.getBytes());
+            fosForRewriting.close();
+
+
             Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         }
         catch (IOException e){}
     }
-    String generateAmountChangeDataString()
+    int updateCorrespondingRecordItem(String name, String date, String amount, String changeType)
     {
-        String amount = currentlyExpandedRecord.findViewById(R.id.amountChangeEditText).toString();
-        String changeType = ((Spinner) currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner)).getSelectedItem().toString();
-        return "/"+LocalDateTime.now()+"/"+amount+"/"+changeType;
+        //First find the corresponding one:
+        int indexOfCorrespondingItem = -1;
+        for(int i=0; i<recordItems.size(); i++)
+        {
+            if(recordItems.get(i).getNameOfDebtor() == name)
+            {
+                indexOfCorrespondingItem = i;
+                break;
+            }
+        }
+        //Then update it:
+        if(indexOfCorrespondingItem>-1)
+        {
+            recordItems.get(indexOfCorrespondingItem).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType));
+        }
+        //If not found?
+        else
+        {
+            Toast.makeText(MainActivity.this, "Error: Corresponding record item was not found!", Toast.LENGTH_LONG).show();
+        }
+        return indexOfCorrespondingItem;
     }
     void emphasizeChangeAmountField(boolean isEmphasized)
     {

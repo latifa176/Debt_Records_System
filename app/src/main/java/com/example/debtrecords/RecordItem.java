@@ -1,6 +1,5 @@
 package com.example.debtrecords;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -37,9 +36,13 @@ public class RecordItem
             changeHistory.add(new AmountChange(LocalDateTime.parse(dateChanged), Float.parseFloat(additionalAmount), AmountType.getEnumWithValueOf(additionalAmountType)));
         }
     }
-    public void AddNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType amountType)
+    public void addNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType amountType)
     {
         changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
+
+        //Recalculate total amount
+        if(amountType == AmountType.Debt) totalAmount += newAmount;
+        else totalAmount -= newAmount;
     }
     public String getNameOfDebtor() {
         return nameOfDebtor;

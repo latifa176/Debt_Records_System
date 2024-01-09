@@ -200,7 +200,7 @@ public class NewRecordActivity extends AppCompatActivity
     }*/
     String generateDebtDataString()
     {
-        // PATTERN EXAMPLE (with 1 amount change): debtorName/2024-01-21T05:47:08.644/section/sectionNum/recordType/totalAmount/2024-01-21T05:47:08.644/amount1/amountChangeType1/2024-01-21T06:47:08.001/amount2/amountChangeType2
+        // PATTERN EXAMPLE (with 1 amount change): debtorName/2024-01-21T05:47:08.644/section/sectionNum/recordType/totalAmount/2024-01-21T05:47:08.644,amount1,amountChangeType1/2024-01-21T06:47:08.001,amount2,amountChangeType2
         return nameEditText.getText().toString()+"/"+
                 LocalDateTime.now()+"/"+
                 sectionSpinner.getSelectedItem().toString()+"/"+
