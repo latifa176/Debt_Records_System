@@ -36,13 +36,24 @@ public class RecordItem
             changeHistory.add(new AmountChange(LocalDateTime.parse(dateChanged), Float.parseFloat(additionalAmount), AmountType.getEnumWithValueOf(additionalAmountType)));
         }
     }
-    public void addNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType amountType)
+    public void addNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType newAmountType)
     {
         changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
 
         //Recalculate total amount
-        if(amountType == AmountType.Debt) totalAmount += newAmount;
-        else totalAmount -= newAmount;
+        if(amountType == AmountType.Debt) {
+            if (newAmountType == AmountType.Debt) totalAmount += newAmount;
+            else totalAmount -= newAmount;
+        }
+        else //amountType = Credit
+        {
+            if(newAmountType == AmountType.Credit) totalAmount += newAmount;
+            else totalAmount -= newAmount;
+        }
+        if (totalAmount <= 0)
+        {
+            //WRITE CODE HERE FOR WHEN TOTAL AMOUNT BECOMES ZERO OR LESS
+        }
     }
     public String getNameOfDebtor() {
         return nameOfDebtor;

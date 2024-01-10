@@ -265,7 +265,6 @@ public class MainActivity extends AppCompatActivity
             fosForAppending.close();
 
             //*** Rewriting the TOTAL AMOUNT in data file ***
-            FileOutputStream fosForRewriting = new FileOutputStream(targetFile);
             //1) Splitting the data content string of this file
             String content = "";
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile)));
@@ -285,7 +284,9 @@ public class MainActivity extends AppCompatActivity
             }
             //2) Merging the produced string variables
             String mergedNewContent = textBeforeTotalAmount+newTotalAmount+textAfterTotalAmount;
+            FileOutputStream fosForRewriting = new FileOutputStream(targetFile);
             fosForRewriting.write(mergedNewContent.getBytes());
+
             fosForRewriting.close();
 
 
