@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
                 String amountChangeHistory = "";
                 for(int j=6; j<dataSegments.length; j++) //loop through the rest of data segments that represent the amountChangeHistory change history:
                 {
-                    amountChangeHistory += dataSegments[j];
+                    amountChangeHistory += dataSegments[j]+"/";
                 }
 
                 RecordItem newRecord = new RecordItem(name, LocalDateTime.parse(dateCreated), Float.parseFloat(totalAmount),
