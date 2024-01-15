@@ -289,7 +289,8 @@ public class MainActivity extends AppCompatActivity
 
             fosForRewriting.close();
 
-
+            initializeRecyclerView();
+            initializeDrawerLayout();
             Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         }
         catch (IOException e){}
