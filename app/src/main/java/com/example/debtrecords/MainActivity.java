@@ -310,7 +310,11 @@ public class MainActivity extends AppCompatActivity
         //Then update it:
         if(indexOfCorrespondingItem>-1)
         {
-            recordItems.get(indexOfCorrespondingItem).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType));
+            if(recordItems.get(indexOfCorrespondingItem).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType)) == false)
+            {
+                //This will be entered only if the total amount becomes zero
+                deleteRecordItemAt(indexOfCorrespondingItem);
+            }
         }
         //If not found?
         else
@@ -318,6 +322,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "Error: Corresponding record item was not found!", Toast.LENGTH_LONG).show();
         }
         return indexOfCorrespondingItem;
+    }
+    void deleteRecordItemAt(int index)
+    {
+        //WRITE CODE HERE
     }
     void emphasizeChangeAmountField(boolean isEmphasized)
     {
