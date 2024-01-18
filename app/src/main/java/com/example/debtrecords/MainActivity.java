@@ -325,7 +325,76 @@ public class MainActivity extends AppCompatActivity
     }
     void deleteRecordItemAt(int index)
     {
-        //WRITE CODE HERE
+        File directory = getApplicationContext().getFilesDir();
+        File binFolder = new File(directory, "@string/bin_folder");
+        File ongoingDebtsFolder = new File(directory, "@string/ongoing_debts_folder");
+
+        //First: Write its data onto the bin folder
+        binFolder.mkdirs();
+        String fileName = recordItems.get(index).getNameOfDebtor()+".txt";
+        File file = new File(binFolder, fileName);
+        String thisRecordItemData = fetchDataFrom(ongoingDebtsFolder, fileName);
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(thisRecordItemData.getBytes());
+            fos.close();
+        }
+        catch (IOException e) {}
+
+        //Second: Delete its data from the ongoing debts folder
+        if(deleteDataFile(ongoingDebtsFolder, fileName))
+            Toast.makeText(MainActivity.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(MainActivity.this, "Error: File could not be deleted", Toast.LENGTH_LONG).show();
+
+        //Finally: Remove it from the list of record items
+        recordItems.remove(recordItems.get(index));
+    }
+    String fetchDataFrom(File folder, String fileName)
+    {
+        //Find the data of the corresponding record item inside the ongoing debts folder:
+        String targetFileContent = "";
+        File targetFile = findFile(folder, fileName);
+        if(targetFile != null)
+        {
+            try
+            {
+                //read it
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile)));
+                int character = br.read();
+
+                while (character != -1)
+                {
+                    targetFileContent += character;
+                    character = br.read();
+                }
+            }
+            catch (IOException e) {}
+        }
+        return targetFileContent;
+    }
+    boolean deleteDataFile(File folder, String fileName)
+    {
+        File targetFile = findFile(folder, fileName);
+        if(targetFile != null)
+        {
+            targetFile.delete();
+            return true;
+        }
+        return false;
+    }
+    File findFile(File folder, String fileName)
+    {
+        File[] files = folder.listFiles();
+        for(File file : files)
+        {
+            if(file.getName() == fileName + ".txt")
+            {
+                return file;
+            }
+        }
+        return null;
     }
     void emphasizeChangeAmountField(boolean isEmphasized)
     {

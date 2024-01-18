@@ -9,6 +9,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="ongoing_debts_folder">Ongoing debts</string>
+    <string name="bin_folder">Bin</string>
 
     <string name="new_record_discard_alert">سيتم حذف جميع البيانات المدخلة. هل أنت متأكد؟</string>
     <string name="new_record_discard_confirm">نعم</string>
