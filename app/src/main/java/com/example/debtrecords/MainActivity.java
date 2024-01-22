@@ -231,8 +231,9 @@ public class MainActivity extends AppCompatActivity
         String amount = ((TextView) currentlyExpandedRecord.findViewById(R.id.amountChangeEditText)).getText().toString();
         String changeType = ((Spinner) currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner)).getSelectedItem().toString();
         String nameOfDebtor = ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString();
-        int indexOfCorrespondingRecordItem = updateCorrespondingRecordItem(nameOfDebtor, dateSaved, amount, changeType);
+        int indexOfCorrespondingRecordItem = FindCorrespondingRecordItem(nameOfDebtor);
         writeAmountChangeToFile(dateSaved, amount, changeType, indexOfCorrespondingRecordItem);
+        updateCorrespondingRecordItem(indexOfCorrespondingRecordItem, dateSaved, amount, changeType);
 
         //Third: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
@@ -295,9 +296,8 @@ public class MainActivity extends AppCompatActivity
         }
         catch (IOException e){}
     }
-    int updateCorrespondingRecordItem(String name, String date, String amount, String changeType)
+    int FindCorrespondingRecordItem(String name)
     {
-        //First find the corresponding one:
         int indexOfCorrespondingItem = -1;
         for(int i=0; i<recordItems.size(); i++)
         {
@@ -307,13 +307,16 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
         }
-        //Then update it:
-        if(indexOfCorrespondingItem>-1)
+        return indexOfCorrespondingItem;
+    }
+    void updateCorrespondingRecordItem(int index, String date, String amount, String changeType)
+    {
+        if(index>-1)
         {
-            if(recordItems.get(indexOfCorrespondingItem).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType)) == false)
+            if(recordItems.get(index).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType)) == false)
             {
                 //This will be entered only if the total amount becomes zero
-                deleteRecordItemAt(indexOfCorrespondingItem);
+                deleteRecordItemAt(index);
             }
         }
         //If not found?
@@ -321,7 +324,6 @@ public class MainActivity extends AppCompatActivity
         {
             Toast.makeText(MainActivity.this, "Error: Corresponding record item was not found!", Toast.LENGTH_LONG).show();
         }
-        return indexOfCorrespondingItem;
     }
     void deleteRecordItemAt(int index)
     {
@@ -389,7 +391,7 @@ public class MainActivity extends AppCompatActivity
         File[] files = folder.listFiles();
         for(File file : files)
         {
-            if(file.getName() == fileName + ".txt")
+            if(file.getName().equals(fileName))
             {
                 return file;
             }
