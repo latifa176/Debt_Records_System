@@ -51,10 +51,19 @@ public class RecordItem
             if(newAmountType == AmountType.Credit) totalAmount += newAmount;
             else totalAmount -= newAmount;
         }
-        if (totalAmount <= 0)
+
+        if (totalAmount == 0)
         {
             totalAmount = 0;
             return false; //to inform caller that it should be deleted
+        }
+        else if (totalAmount <= 0)
+        {
+            totalAmount = - totalAmount;
+
+            //Switch Debt -> Credit & vice versa
+            if (amountType == AmountType.Debt) amountType = AmountType.Credit;
+            else amountType = AmountType.Debt;
         }
         return true;
     }
