@@ -289,10 +289,6 @@ public class MainActivity extends AppCompatActivity
             fosForRewriting.write(mergedNewContent.getBytes());
 
             fosForRewriting.close();
-
-            initializeRecyclerView();
-            initializeDrawerLayout();
-            Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         }
         catch (IOException e){}
     }
@@ -318,6 +314,14 @@ public class MainActivity extends AppCompatActivity
                 //This will be entered only if the total amount becomes zero
                 deleteRecordItemAt(index);
             }
+            else if(recordItems.get(index).recordTypeShouldChange())
+            {
+                //This will be entered only if the total amount becomes negative
+                changeRecordTypeInFile(index);
+            }
+            initializeRecyclerView();
+            initializeDrawerLayout();
+            Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         }
         //If not found?
         else
@@ -352,6 +356,41 @@ public class MainActivity extends AppCompatActivity
 
         //Finally: Remove it from the list of record items
         recordItems.remove(recordItems.get(index));
+    }
+    void changeRecordTypeInFile(int index)
+    {
+        File directory = getApplicationContext().getFilesDir();
+        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
+        File targetFile = new File(debtsFolder, ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString() + ".txt");
+
+        try
+        {
+            //*** Rewriting the RECORD TYPE in data file ***
+            //1) Splitting the data content string of this file
+            String content = "";
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(targetFile)));
+            int character = br.read();
+            while(character != -1)
+            {
+                content += (char) character;
+                character = br.read();
+            }
+            String[] thisFileDataSegments = content.split("/");
+            String textBeforeRecordType = thisFileDataSegments[0]+"/"+thisFileDataSegments[1]+"/"+thisFileDataSegments[2]+"/"+thisFileDataSegments[3]+"/";
+            String newRecordType = recordItems.get(index).getAmountType().toString();
+            String textAfterRecordType = "";
+            for(int i=5; i<thisFileDataSegments.length; i++)
+            {
+                textAfterRecordType += "/"+thisFileDataSegments[i];
+            }
+
+            //2) Merging the produced string variables
+            String mergedNewContent = textBeforeRecordType+newRecordType+textAfterRecordType;
+            FileOutputStream fos = new FileOutputStream(targetFile);
+            fos.write(mergedNewContent.getBytes());
+            fos.close();
+        }
+        catch (IOException e) {}
     }
     String fetchDataFrom(File folder, String fileName)
     {

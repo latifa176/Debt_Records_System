@@ -38,7 +38,7 @@ public class RecordItem
     }
     public boolean addNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType newAmountType)
     {
-        changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
+        changeHistory.add(new AmountChange(dateCreated, newAmount, newAmountType));
 
         //Recalculate total amount
         if(amountType == AmountType.Debt)
@@ -57,15 +57,21 @@ public class RecordItem
             totalAmount = 0;
             return false; //to inform caller that it should be deleted
         }
-        else if (totalAmount <= 0)
+        return true;
+    }
+    public boolean recordTypeShouldChange()
+    {
+        if (totalAmount <= 0)
         {
-            totalAmount = - totalAmount;
+            totalAmount = Math.abs(totalAmount);
 
             //Switch Debt -> Credit & vice versa
             if (amountType == AmountType.Debt) amountType = AmountType.Credit;
             else amountType = AmountType.Debt;
+
+            return true;
         }
-        return true;
+        return false;
     }
     public String getNameOfDebtor() {
         return nameOfDebtor;
