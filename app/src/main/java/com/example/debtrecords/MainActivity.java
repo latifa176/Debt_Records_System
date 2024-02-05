@@ -232,8 +232,11 @@ public class MainActivity extends AppCompatActivity
         String changeType = ((Spinner) currentlyExpandedRecord.findViewById(R.id.typeOfChangeSpinner)).getSelectedItem().toString();
         String nameOfDebtor = ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString();
         int indexOfCorrespondingRecordItem = FindCorrespondingRecordItem(nameOfDebtor);
-        writeAmountChangeToFile(dateSaved, amount, changeType, indexOfCorrespondingRecordItem);
         updateCorrespondingRecordItem(indexOfCorrespondingRecordItem, dateSaved, amount, changeType);
+        writeAmountChangeToFile(dateSaved, amount, changeType, indexOfCorrespondingRecordItem);
+        //Re-initialize the view
+        initializeRecyclerView();
+        initializeDrawerLayout();
 
         //Third: change the amount field color back to normal and empty the field
         emphasizeChangeAmountField(false);
@@ -276,6 +279,7 @@ public class MainActivity extends AppCompatActivity
                 character = br.read();
             }
             String[] thisFileDataSegments = content.split("/");
+            if(thisFileDataSegments.length <= 4) return; //<-- Fixing ArrayIndexOutOfBoundsException
             String textBeforeTotalAmount = thisFileDataSegments[0]+"/"+thisFileDataSegments[1]+"/"+thisFileDataSegments[2]+"/"+thisFileDataSegments[3]+"/"+thisFileDataSegments[4]+"/";
             String newTotalAmount = "" + recordItems.get(indexOfRecordItem).getTotalAmount();
             String textAfterTotalAmount = "";
@@ -319,8 +323,6 @@ public class MainActivity extends AppCompatActivity
                 //This will be entered only if the total amount becomes negative
                 changeRecordTypeInFile(index);
             }
-            initializeRecyclerView();
-            initializeDrawerLayout();
             Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         }
         //If not found?
