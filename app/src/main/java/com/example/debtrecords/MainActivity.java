@@ -233,7 +233,6 @@ public class MainActivity extends AppCompatActivity
         String nameOfDebtor = ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString();
         int indexOfCorrespondingRecordItem = FindCorrespondingRecordItem(nameOfDebtor);
         updateCorrespondingRecordItem(indexOfCorrespondingRecordItem, dateSaved, amount, changeType);
-        writeAmountChangeToFile(dateSaved, amount, changeType, indexOfCorrespondingRecordItem);
         //Re-initialize the view
         initializeRecyclerView();
         initializeDrawerLayout();
@@ -279,7 +278,6 @@ public class MainActivity extends AppCompatActivity
                 character = br.read();
             }
             String[] thisFileDataSegments = content.split("/");
-            if(thisFileDataSegments.length <= 4) return; //<-- Fixing ArrayIndexOutOfBoundsException
             String textBeforeTotalAmount = thisFileDataSegments[0]+"/"+thisFileDataSegments[1]+"/"+thisFileDataSegments[2]+"/"+thisFileDataSegments[3]+"/"+thisFileDataSegments[4]+"/";
             String newTotalAmount = "" + recordItems.get(indexOfRecordItem).getTotalAmount();
             String textAfterTotalAmount = "";
@@ -313,6 +311,8 @@ public class MainActivity extends AppCompatActivity
     {
         if(index>-1)
         {
+            writeAmountChangeToFile(date, amount, changeType, index);
+
             if(recordItems.get(index).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType)) == false)
             {
                 //This will be entered only if the total amount becomes zero
