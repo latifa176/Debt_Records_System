@@ -1,6 +1,5 @@
 package com.example.debtrecords;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -16,8 +15,9 @@ public class RecordItem
     private DebtorSectionNumber sectionNumOfDebtor;
     private AmountType amountType;
     private List<AmountChange> changeHistory;
+    private boolean recordTypeChangeFlag;
 
-    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType)
+    public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType, String amountChangeHistory)
     {
         this.nameOfDebtor = nameOfDebtor;
         this.dateCreated = dateCreated;
@@ -25,8 +25,59 @@ public class RecordItem
         this.sectionOfDebtor = sectionOfDebtor;
         this.sectionNumOfDebtor = sectionNumOfDebtor;
         this.amountType = amountType;
+
         changeHistory = new LinkedList<>();
-        changeHistory.add(new AmountChange(dateCreated, totalAmount, amountType));
+        String[] amountChangeHistorySegments = amountChangeHistory.split("/");
+        for(int i=0; i<amountChangeHistorySegments.length; i++)
+        {
+            String[] amountChangeItemSegments = amountChangeHistorySegments[i].split(",");
+            String dateChanged = amountChangeItemSegments[0];
+            String additionalAmount = amountChangeItemSegments[1];
+            String additionalAmountType = amountChangeItemSegments[2];
+            changeHistory.add(new AmountChange(LocalDateTime.parse(dateChanged), Float.parseFloat(additionalAmount), AmountType.getEnumWithValueOf(additionalAmountType)));
+        }
+    }
+    public boolean addNewAmountChange(LocalDateTime dateCreated, float newAmount, AmountType newAmountType)
+    {
+        changeHistory.add(new AmountChange(dateCreated, newAmount, newAmountType));
+
+        //Recalculate total amount
+        if(amountType == AmountType.Debt)
+        {
+            if (newAmountType == AmountType.Debt) totalAmount += newAmount;
+            else totalAmount -= newAmount;
+        }
+        else //amountType = Credit
+        {
+            if(newAmountType == AmountType.Credit) totalAmount += newAmount;
+            else totalAmount -= newAmount;
+        }
+
+        if (totalAmount == 0)
+        {
+            totalAmount = 0;
+            return false; //to inform caller that it should be deleted
+        }
+        else if (totalAmount <= 0)
+        {
+            totalAmount = Math.abs(totalAmount);
+
+            //Switch Debt -> Credit & vice versa
+            if (amountType == AmountType.Debt) amountType = AmountType.Credit;
+            else amountType = AmountType.Debt;
+
+            recordTypeChangeFlag = true;
+        }
+        return true;
+    }
+    public boolean recordTypeShouldChange()
+    {
+        if (recordTypeChangeFlag)
+        {
+            recordTypeChangeFlag = false; //resetting flag
+            return true;
+        }
+        return false;
     }
     public String getNameOfDebtor() {
         return nameOfDebtor;

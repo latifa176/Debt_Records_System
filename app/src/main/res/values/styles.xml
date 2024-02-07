@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DarkButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:backgroundTint">@color/bluish_green</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">24dp</item>
+    </style>
+    <style name="LightButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/bluish_green</item>
+        <item name="android:textSize">24dp</item>
+    </style>
+</resources>

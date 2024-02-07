@@ -12,13 +12,13 @@
     <RelativeLayout
         android:id="@+id/recordItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@color/record_BG_red"
         android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="المجموع"
             android:textAlignment="center"
@@ -28,9 +28,10 @@
 
         <TextView
             android:id="@+id/totalAmount"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
             android:text="-3"
             android:textAlignment="center"
             android:textColor="@color/red"
@@ -39,7 +40,7 @@
 
         <TextView
             android:id="@+id/dateAndTime"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="60dp"
@@ -49,10 +50,9 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginLeft="110dp"
+            android:layout_marginLeft="140dp"
             android:layout_marginTop="10dp"
             android:text="فلانة الفلاني"
             android:textColor="@color/bluish_green"
@@ -60,9 +60,9 @@
             android:textStyle="bold"></TextView>
 
         <TextView
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="230dp"
+            android:layout_marginLeft="320dp"
             android:layout_marginTop="50dp"
             android:gravity="end"
             android:text="القسم:"
@@ -72,13 +72,12 @@
 
         <TextView
             android:id="@+id/section"
-            android:layout_width="120dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="185dp"
+            android:layout_marginLeft="180dp"
             android:layout_marginTop="50dp"
-            android:gravity="end"
             android:text="ثالث 1"
-            android:textAlignment="viewEnd"
+            android:gravity="right"
             android:textColor="@color/bluish_green"
             android:textSize="18sp"
             android:textStyle="bold"></TextView>
@@ -92,6 +91,22 @@
             android:orientation="vertical"
             android:paddingBottom="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <ImageButton
+            android:id="@+id/editAmountButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:clickable="false"
+            android:onClick="onEditAmountClick"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/btn_edit_cropped" />
+
+        <include layout="@layout/edit_amount_container"
+            android:id="@+id/editAmountContainer"/>
 
     </RelativeLayout>
 

@@ -32,8 +32,6 @@ import java.time.LocalDateTime;
 
 public class NewRecordActivity extends AppCompatActivity
 {
-    private TextView testDataText;
-
     private TextView nameTextView, sectionTextView, sectionNumTextView, recordTypeTextView, amountTextView;
     private EditText nameEditText, amountEditText;
     private Spinner sectionSpinner, sectionNumSpinner, recordTypeSpinner;
@@ -51,16 +49,13 @@ public class NewRecordActivity extends AppCompatActivity
 
         findViews();
         initializeColorVariables();
-
-        testDataText=findViewById(R.id.testData);
-        //testDisplaySavedData();
     }
     void initializeSectionSpinner()
     {
         sectionSpinner = findViewById(R.id.sectionSpinner);
         ArrayAdapter<DebtorSection> sectionArrayAdapter = new ArrayAdapter<DebtorSection>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         DebtorSection.values()
                 );
 
@@ -94,7 +89,7 @@ public class NewRecordActivity extends AppCompatActivity
         sectionNumSpinner = findViewById(R.id.sectionNumSpinner);
         ArrayAdapter<DebtorSectionNumber> sectionNumArrayAdapter = new ArrayAdapter<DebtorSectionNumber>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         DebtorSectionNumber.values()
                 );
 
@@ -106,7 +101,7 @@ public class NewRecordActivity extends AppCompatActivity
         Spinner recordTypeSpinner = findViewById(R.id.recordTypeSpinner);
         ArrayAdapter<AmountType> recordTypeArrayAdapter = new ArrayAdapter<AmountType>
                 (this,
-                        android.R.layout.simple_spinner_item,
+                        R.layout.spinner_item,
                         AmountType.values()
                 );
 
@@ -190,7 +185,7 @@ public class NewRecordActivity extends AppCompatActivity
     }
     boolean zeroAmount(String amountText)
     {
-        if(Integer.parseInt(amountText) == 0)
+        if(Float.parseFloat(amountText) == 0)
         {
             Toast.makeText(NewRecordActivity.this, "Amount cannot be zero", Toast.LENGTH_LONG).show();
             return true;
@@ -205,12 +200,19 @@ public class NewRecordActivity extends AppCompatActivity
     }*/
     String generateDebtDataString()
     {
-        return nameEditText.getText().toString()+","+
+        // PATTERN EXAMPLE (with 1 amount change): debtorName/2024-01-21T05:47:08.644/section/sectionNum/recordType/totalAmount/2024-01-21T05:47:08.644,amount1,amountChangeType1/2024-01-21T06:47:08.001,amount2,amountChangeType2
+        return nameEditText.getText().toString()+"/"+
+                LocalDateTime.now()+"/"+
+                sectionSpinner.getSelectedItem().toString()+"/"+
+                sectionNumSpinner.getSelectedItem().toString()+"/"+
+                recordTypeSpinner.getSelectedItem().toString()+"/"+
+                amountEditText.getText().toString()+"/"+ //<< total amount
+
+                //This is for the amount change history:
                 LocalDateTime.now()+","+
-                sectionSpinner.getSelectedItem().toString()+","+
-                sectionNumSpinner.getSelectedItem().toString()+","+
-                recordTypeSpinner.getSelectedItem().toString()+","+
-                amountEditText.getText().toString()+",";
+                amountEditText.getText().toString()+","+
+                recordTypeSpinner.getSelectedItem().toString();
+
     }
     void emphasizeRequiredFields()
     {
@@ -317,30 +319,5 @@ public class NewRecordActivity extends AppCompatActivity
     {
         if(nameEditText.getText().toString().isEmpty() && amountEditText.getText().toString().isEmpty()) return false;
         return true;
-    }
-    void testDisplaySavedData()
-    {
-        File directory = getApplicationContext().getFilesDir();
-        File debtsFolder = new File(directory, "@string/ongoing_debts_folder");
-        String content="";
-
-        try
-        {
-            File[] files = debtsFolder.listFiles();
-            FileInputStream fis = new FileInputStream(files[0]);
-            int character = fis.read();
-
-            while (character != -1)
-            {
-                content = content + Character.toString((char)character); //Appending the character into the content string
-                character = fis.read(); //Read the next character
-            }
-
-            testDataText.setText(content);
-        }
-        catch (Exception e)
-        {
-            testDataText.setText(e.toString());
-        }
     }
 }
