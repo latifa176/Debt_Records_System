@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity
         String nameOfDebtor = ((TextView) currentlyExpandedRecord.findViewById(R.id.name)).getText().toString();
         int indexOfCorrespondingRecordItem = FindCorrespondingRecordItem(nameOfDebtor);
         updateCorrespondingRecordItem(indexOfCorrespondingRecordItem, dateSaved, amount, changeType);
+
         //Re-initialize the view
         initializeRecyclerView();
         initializeDrawerLayout();
@@ -311,9 +312,10 @@ public class MainActivity extends AppCompatActivity
     {
         if(index>-1)
         {
+            boolean newTotalAmountIsZero = ! recordItems.get(index).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType));
             writeAmountChangeToFile(date, amount, changeType, index);
 
-            if(recordItems.get(index).addNewAmountChange(LocalDateTime.parse(date), Float.parseFloat(amount), AmountType.getEnumWithValueOf(changeType)) == false)
+            if(newTotalAmountIsZero)
             {
                 //This will be entered only if the total amount becomes zero
                 deleteRecordItemAt(index);

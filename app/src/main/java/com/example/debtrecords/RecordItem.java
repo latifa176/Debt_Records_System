@@ -15,6 +15,7 @@ public class RecordItem
     private DebtorSectionNumber sectionNumOfDebtor;
     private AmountType amountType;
     private List<AmountChange> changeHistory;
+    private boolean recordTypeChangeFlag;
 
     public RecordItem(String nameOfDebtor, LocalDateTime dateCreated, float totalAmount, DebtorSection sectionOfDebtor, DebtorSectionNumber sectionNumOfDebtor, AmountType amountType, String amountChangeHistory)
     {
@@ -57,11 +58,7 @@ public class RecordItem
             totalAmount = 0;
             return false; //to inform caller that it should be deleted
         }
-        return true;
-    }
-    public boolean recordTypeShouldChange()
-    {
-        if (totalAmount <= 0)
+        else if (totalAmount <= 0)
         {
             totalAmount = Math.abs(totalAmount);
 
@@ -69,6 +66,15 @@ public class RecordItem
             if (amountType == AmountType.Debt) amountType = AmountType.Credit;
             else amountType = AmountType.Debt;
 
+            recordTypeChangeFlag = true;
+        }
+        return true;
+    }
+    public boolean recordTypeShouldChange()
+    {
+        if (recordTypeChangeFlag)
+        {
+            recordTypeChangeFlag = false; //resetting flag
             return true;
         }
         return false;
