@@ -45,6 +45,7 @@
             android:layout_marginTop="60dp"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:onClick="onSortClick"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/btn_sort_ldpi" />
 
@@ -80,6 +81,9 @@
             android:gravity="center_horizontal|center_vertical"
             android:textColor="@color/bluish_green"
             android:textSize="16sp" />
+
+        <include layout="@layout/sort_menu_container"
+            android:id="@+id/sortMenuContainer"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

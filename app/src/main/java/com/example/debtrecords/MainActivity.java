@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private static int editAmountContainerHeightInDp = 120;
     private static int defaultRecordItemHeight, editAmountContainerHeight;
     private ColorStateList originalBackgroundTint, originalTextColor, redBackgroundTint, redTextColor;
+    private View sortMenu, filterMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         initializeRecyclerView();
         initializeDrawerLayout();
+        shrinkAllMenus();
     }
 
     void initializeRecyclerView()
@@ -149,6 +151,13 @@ public class MainActivity extends AppCompatActivity
         redBackgroundTint = getApplicationContext().getResources().getColorStateList(R.color.red);
         originalTextColor = getApplicationContext().getResources().getColorStateList(R.color.dark_green);
         redTextColor = getApplicationContext().getResources().getColorStateList(R.color.red);
+    }
+    void shrinkAllMenus()
+    {
+        sortMenu = findViewById(R.id.sortMenuContainer);
+        //filterMenu = findViewById ::::::
+
+        animateContainerHeight(sortMenu, sortMenu.getHeight(), 0, 0);
     }
 
     @Override
@@ -253,6 +262,11 @@ public class MainActivity extends AppCompatActivity
         //Finally: re-animate the record item height
         View recordContainer = currentlyExpandedRecord.findViewById(R.id.recordItem);
         animateContainerHeight(recordContainer, recordContainer.getHeight(), ViewGroup.LayoutParams.WRAP_CONTENT, 300);
+    }
+    public void onSortClick(View view)
+    {
+        View sortMenuContainer = findViewById(R.id.sortMenuContainer);
+        animateContainerHeight(sortMenuContainer, sortMenuContainer.getHeight(), ViewGroup.LayoutParams.MATCH_PARENT, 300);
     }
     void writeAmountChangeToFile(String date, String amount, String changeType, int indexOfRecordItem)
     {
